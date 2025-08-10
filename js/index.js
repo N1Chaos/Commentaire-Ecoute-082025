@@ -1811,8 +1811,19 @@ const wordDefinitions =
         "definition": "Adaptation d'une œuvre musicale pour un instrument ou un ensemble différent."
     }
 };
+// ==================== FONCTIONS UTILITAIRES ====================
+function getPageName() {
+  return window.location.pathname.split('/').pop().replace('.html', '');
+}
 
-// ==================== GESTION DES MOTS SÉLECTIONNÉS ====================
+function saveToLocalStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function loadFromLocalStorage(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
+
 // ==================== GESTION DES MOTS SÉLECTIONNÉS ====================
 function displayWordsForPage(page) {
   const container = document.querySelector(`.selected-words-container[data-page="${page}"]`);
@@ -1891,32 +1902,66 @@ function loadVideo() {
 
 // ==================== ENREGISTREMENT AUDIO ====================
 async function setupAudioRecorder() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    let audioChunks = [];
-    const recorder = new MediaRecorder(stream);
+  const recordButton = document.getElementById('recordButton');
+  const recordingIndicator = document.getElementById('recordingIndicator');
+  const recordingConfirmation = document.getElementById('recordingConfirmation');
+  let audioChunks = [];
+  let recorder = null;
+  let recordingSeconds = 0;
+  let timerInterval = null;
 
-    recorder.ondataavailable = e => audioChunks.push(e.data);
-    recorder.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      document.getElementById('audioPlayback').src = audioUrl;
-      window.audioBlob = audioBlob;
-    };
-
-    document.getElementById('recordButton').onclick = () => {
-      if (recorder.state === 'inactive') {
-        audioChunks = [];
-        recorder.start();
-        this.textContent = "Arrêter";
-      } else {
-        recorder.stop();
-        this.textContent = "Démarrer";
-      }
-    };
-  } catch (error) {
-    console.error("Erreur microphone:", error);
+  if (!recordButton || !recordingIndicator || !recordingConfirmation) {
+    console.error('Éléments d’enregistrement non trouvés dans le DOM');
+    return;
   }
+
+  recordButton.onclick = async () => {
+    if (!recorder || recorder.state === 'inactive') {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        recorder.ondataavailable = e => audioChunks.push(e.data);
+        recorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          document.getElementById('audioPlayback').src = audioUrl;
+          window.audioBlob = audioBlob;
+          recordButton.classList.remove('btn-warning');
+          recordButton.classList.add('btn-danger');
+          recordButton.innerHTML = '<i class="bi bi-mic-fill"></i> Enregistrer votre commentaire';
+          recordingIndicator.style.display = 'none';
+          clearInterval(timerInterval);
+          recordingSeconds = 0;
+          recordingConfirmation.style.display = 'inline';
+          setTimeout(() => {
+            recordingConfirmation.style.display = 'none';
+          }, 10000);
+          console.log('Enregistrement arrêté, commentaire enregistré');
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        recorder.start();
+        recordButton.classList.remove('btn-danger');
+        recordButton.classList.add('btn-warning');
+        recordButton.innerHTML = '<i class="bi bi-stop-fill"></i> Arrêter l\'enregistrement';
+        recordingIndicator.style.display = 'inline';
+        recordingSeconds = 0;
+        recordingIndicator.textContent = `Enregistrement en cours... (0 s)`;
+        timerInterval = setInterval(() => {
+          recordingSeconds++;
+          recordingIndicator.textContent = `Enregistrement en cours... (${recordingSeconds} s)`;
+        }, 1000);
+        recordingConfirmation.style.display = 'none';
+        console.log('Enregistrement démarré');
+      } catch (error) {
+        console.error('Erreur microphone:', error);
+      }
+    } else {
+      recorder.stop();
+    }
+  };
 }
 
 // ==================== FONCTIONS IndexedDB ====================
@@ -2126,70 +2171,6 @@ async function setupAudioPlayer() {
   });
 }
 
-// ==================== ENREGISTREMENT AUDIO ====================
-async function setupAudioRecorder() {
-  const recordButton = document.getElementById('recordButton');
-  const recordingIndicator = document.getElementById('recordingIndicator');
-  const recordingConfirmation = document.getElementById('recordingConfirmation');
-  let audioChunks = [];
-  let recorder = null;
-  let recordingSeconds = 0;
-  let timerInterval = null;
-
-  if (!recordButton || !recordingIndicator || !recordingConfirmation) {
-    console.error('Éléments d’enregistrement non trouvés dans le DOM');
-    return;
-  }
-
-  recordButton.onclick = async () => {
-    if (!recorder || recorder.state === 'inactive') {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        recorder = new MediaRecorder(stream);
-        audioChunks = [];
-
-        recorder.ondataavailable = e => audioChunks.push(e.data);
-        recorder.onstop = () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          document.getElementById('audioPlayback').src = audioUrl;
-          window.audioBlob = audioBlob;
-          recordButton.classList.remove('btn-warning');
-          recordButton.classList.add('btn-danger');
-          recordButton.innerHTML = '<i class="bi bi-mic-fill"></i> Enregistrer votre commentaire';
-          recordingIndicator.style.display = 'none';
-          clearInterval(timerInterval);
-          recordingSeconds = 0;
-          recordingConfirmation.style.display = 'inline';
-          setTimeout(() => {
-            recordingConfirmation.style.display = 'none';
-          }, 10000);
-          console.log('Enregistrement arrêté, commentaire enregistré');
-          stream.getTracks().forEach(track => track.stop());
-        };
-
-        recorder.start();
-        recordButton.classList.remove('btn-danger');
-        recordButton.classList.add('btn-warning');
-        recordButton.innerHTML = '<i class="bi bi-stop-fill"></i> Arrêter l\'enregistrement';
-        recordingIndicator.style.display = 'inline';
-        recordingSeconds = 0;
-        recordingIndicator.textContent = `Enregistrement en cours... (0 s)`;
-        timerInterval = setInterval(() => {
-          recordingSeconds++;
-          recordingIndicator.textContent = `Enregistrement en cours... (${recordingSeconds} s)`;
-        }, 1000);
-        recordingConfirmation.style.display = 'none';
-        console.log('Enregistrement démarré');
-      } catch (error) {
-        console.error('Erreur microphone:', error);
-      }
-    } else {
-      recorder.stop();
-    }
-  };
-}
-
 // ==================== FRISE CHRONOLOGIQUE INTERACTIVE ====================
 let timeline = null;
 
@@ -2203,28 +2184,161 @@ function initializeTimeline() {
     },
     events: [
       {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gregorian_chant_-_Liber_Usualis.jpg/800px-Gregorian_chant_-_Liber_Usualis.jpg" },
+        start_date: { year: 500 },
+        end_date: { year: 1400 },
+        text: {
+          headline: "Moyen Âge",
+          text: wordDefinitions["musique du Moyen-Age"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Josquin.jpg/800px-Josquin.jpg" },
+        start_date: { year: 1400 },
+        end_date: { year: 1600 },
+        text: {
+          headline: "Renaissance",
+          text: wordDefinitions["musique de la Renaissance"].definition
+        }
+      },
+      {
         media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Claudio_Monteverdi.jpg/800px-Claudio_Monteverdi.jpg" },
         start_date: { year: 1600 },
         end_date: { year: 1750 },
         text: {
           headline: "Période Baroque",
-          text: "La période baroque (1600-1750) est marquée par des compositeurs comme Monteverdi, Bach et Vivaldi. Caractérisée par l'ornementation et les formes comme l'opéra et la fugue."
+          text: wordDefinitions["style baroque"].definition
         }
       },
       {
         media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Johann_Sebastian_Bach.jpg/800px-Johann_Sebastian_Bach.jpg" },
         start_date: { year: 1710 },
         text: {
-          headline: "Bach et les Concertos Brandebourgeois",
-          text: "Johann Sebastian Bach compose ses Concertos Brandebourgeois, un sommet de la musique baroque."
+          headline: "Johann Sebastian Bach",
+          text: "Johann Sebastian Bach, maître du Baroque, compose des œuvres complexes comme les Concertos Brandebourgeois et la Passion selon Saint-Matthieu."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg/800px-Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg" },
+        start_date: { year: 1750 },
+        end_date: { year: 1820 },
+        text: {
+          headline: "Période Classique",
+          text: wordDefinitions["style classique"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Joseph_Haydn.jpg/800px-Joseph_Haydn.jpg" },
+        start_date: { year: 1791 },
+        text: {
+          headline: "Joseph Haydn",
+          text: "Joseph Haydn, père de la symphonie, compose plus de 100 symphonies, dont la célèbre 'Symphonie Surprise'."
         }
       },
       {
         media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Beethoven.jpg/800px-Beethoven.jpg" },
         start_date: { year: 1804 },
         text: {
-          headline: "Beethoven et la Symphonie n°3",
+          headline: "Ludwig van Beethoven",
           text: "Ludwig van Beethoven révolutionne la musique classique avec sa Symphonie n°3 'Eroica', marquant le début du romantisme."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg/800px-Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg" },
+        start_date: { year: 1800 },
+        end_date: { year: 1900 },
+        text: {
+          headline: "Période Romantique",
+          text: wordDefinitions["style romantique"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Franz_Liszt_1858.jpg/800px-Franz_Liszt_1858.jpg" },
+        start_date: { year: 1839 },
+        text: {
+          headline: "Franz Liszt",
+          text: "Franz Liszt, pianiste virtuose et compositeur romantique, révolutionne la musique pour piano avec ses Rhapsodies hongroises."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Richard_Wagner_circa_1852_-_Hermann_Biow.jpg/800px-Richard_Wagner_circa_1852_-_Hermann_Biow.jpg" },
+        start_date: { year: 1843 },
+        text: {
+          headline: "Richard Wagner",
+          text: "Richard Wagner, géant du romantisme, crée des opéras monumentaux comme 'L'Anneau du Nibelung', redéfinissant le drame musical."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Robert_Johnson.jpg/800px-Robert_Johnson.jpg" },
+        start_date: { year: 1911 },
+        text: {
+          headline: "Blues",
+          text: wordDefinitions["blues traditionnel"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/W._C._Handy%2C_musician%2C_1918.jpg/800px-W._C._Handy%2C_1918.jpg" },
+        start_date: { year: 1914 },
+        text: {
+          headline: "W.C. Handy",
+          text: "W.C. Handy, 'père du blues', popularise le style avec des chansons comme 'St. Louis Blues'."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bessie_Smith_%28cropped%29.jpg/800px-Bessie_Smith_%28cropped%29.jpg" },
+        start_date: { year: 1923 },
+        text: {
+          headline: "Bessie Smith",
+          text: "Bessie Smith, 'impératrice du blues', captive avec sa voix puissante dans des enregistrements comme 'Downhearted Blues'."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Louis_Armstrong_restored.jpg/800px-Louis_Armstrong_restored.jpg" },
+        start_date: { year: 1917 },
+        text: {
+          headline: "Jazz",
+          text: wordDefinitions["jazz"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Duke_Ellington_-_publicity.jpg/800px-Duke_Ellington_-_publicity.jpg" },
+        start_date: { year: 1930 },
+        text: {
+          headline: "Duke Ellington",
+          text: "Duke Ellington, pionnier du jazz orchestral, compose des standards comme 'It Don't Mean a Thing'."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Miles_Davis_by_Palumbo.jpg/800px-Miles_Davis_by_Palumbo.jpg" },
+        start_date: { year: 1959 },
+        text: {
+          headline: "Miles Davis",
+          text: wordDefinitions["jazz"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Cecil_Scott_Folklore_musicien_2.jpg/800px-Cecil_Scott_Folklore_musicien_2.jpg" },
+        start_date: { year: 1900 },
+        end_date: { year: 2025 },
+        text: {
+          headline: "Musiques Traditionnelles / Folk",
+          text: wordDefinitions["musiques traditionnelles / folk"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Woody_Guthrie_1943.jpg/800px-Woody_Guthrie_1943.jpg" },
+        start_date: { year: 1940 },
+        text: {
+          headline: "Woody Guthrie",
+          text: "Woody Guthrie, icône du folk américain, chante les luttes sociales avec 'This Land Is Your Land'."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg/800px-Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg" },
+        start_date: { year: 1950 },
+        text: {
+          headline: "Pete Seeger",
+          text: "Pete Seeger popularise le folk avec des chansons engagées comme 'Where Have All the Flowers Gone?'."
         }
       },
       {
@@ -2232,15 +2346,49 @@ function initializeTimeline() {
         start_date: { year: 1950 },
         text: {
           headline: "Naissance du Rock",
-          text: "Les années 1950 voient l'émergence du rock 'n' roll avec des artistes comme Elvis Presley et Chuck Berry."
+          text: wordDefinitions["rock"].definition
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Miles_Davis_by_Palumbo.jpg/800px-Miles_Davis_by_Palumbo.jpg" },
-        start_date: { year: 1959 },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Igor_Stravinsky_LOC_32392u.jpg/800px-Igor_Stravinsky_LOC_32392u.jpg" },
+        start_date: { year: 1900 },
+        end_date: { year: 1945 },
         text: {
-          headline: "Miles Davis et le Jazz Moderne",
-          text: "Miles Davis sort 'Kind of Blue', un album emblématique du jazz modal."
+          headline: "Musique Moderne",
+          text: wordDefinitions["musique moderne"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Arnold_Schoenberg_LA_1938.jpg/800px-Arnold_Schoenberg_LA_1938.jpg" },
+        start_date: { year: 1912 },
+        text: {
+          headline: "Arnold Schoenberg",
+          text: "Arnold Schoenberg invente la musique atonale et le dodécaphonisme, révolutionnant la composition moderne."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg/800px-Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg" },
+        start_date: { year: 1910 },
+        text: {
+          headline: "Claude Debussy",
+          text: "Claude Debussy, pionnier de l’impressionnisme musical, compose des œuvres comme 'Prélude à l’après-midi d’un faune'."
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Philip_Glass_by_Werner_Bartsch.jpg/800px-Philip_Glass_by_Werner_Bartsch.jpg" },
+        start_date: { year: 1945 },
+        end_date: { year: 2025 },
+        text: {
+          headline: "Musique Contemporaine",
+          text: wordDefinitions["musique contemporaine"].definition
+        }
+      },
+      {
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/John_Cage_%281986%29.jpg/800px-John_Cage_%281986%29.jpg" },
+        start_date: { year: 1952 },
+        text: {
+          headline: "John Cage",
+          text: "John Cage repousse les limites de la musique contemporaine avec des œuvres expérimentales comme '4’33”'."
         }
       }
     ]
@@ -2536,6 +2684,7 @@ const capitalFallbacks = {
   'YT': 'Mamoudzou'
 };
 
+// Données de secours pour la France et la Norvège
 const fallbackCountryData = {
   'FR': {
     flag: 'https://flagcdn.com/w320/fr.png',
@@ -2547,6 +2696,7 @@ const fallbackCountryData = {
   }
 };
 
+// Table de correspondance pour traduire les codes/noms de langues en français
 const languageTranslations = {
   'eng': 'Anglais',
   'fra': 'Français',
@@ -2827,6 +2977,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const fileName = document.getElementById('fileName').value || 'enregistrement';
     
+    // Convertir WAV en MP3
     try {
       const arrayBuffer = await window.audioBlob.arrayBuffer();
       const audioContext = new AudioContext();
