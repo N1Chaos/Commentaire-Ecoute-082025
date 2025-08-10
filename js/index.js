@@ -2175,6 +2175,8 @@ async function setupAudioPlayer() {
 let timeline = null;
 
 function initializeTimeline() {
+  const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png"; // Image de secours
+
   const timelineData = {
     title: {
       text: {
@@ -2184,7 +2186,7 @@ function initializeTimeline() {
     },
     events: [
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gregorian_chant_-_Liber_Usualis.jpg/800px-Gregorian_chant_-_Liber_Usualis.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gregorian_chant_-_Liber_Usualis.jpg/800px-Gregorian_chant_-_Liber_Usualis.jpg" || fallbackImage },
         start_date: { year: 500 },
         end_date: { year: 1400 },
         text: {
@@ -2193,7 +2195,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Josquin.jpg/800px-Josquin.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Josquin.jpg/800px-Josquin.jpg" || fallbackImage },
         start_date: { year: 1400 },
         end_date: { year: 1600 },
         text: {
@@ -2202,7 +2204,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Claudio_Monteverdi.jpg/800px-Claudio_Monteverdi.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Claudio_Monteverdi.jpg/800px-Claudio_Monteverdi.jpg" || fallbackImage },
         start_date: { year: 1600 },
         end_date: { year: 1750 },
         text: {
@@ -2211,7 +2213,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Johann_Sebastian_Bach.jpg/800px-Johann_Sebastian_Bach.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Johann_Sebastian_Bach.jpg/800px-Johann_Sebastian_Bach.jpg" || fallbackImage },
         start_date: { year: 1710 },
         text: {
           headline: "Johann Sebastian Bach",
@@ -2219,7 +2221,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg/800px-Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg/800px-Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg" || fallbackImage },
         start_date: { year: 1750 },
         end_date: { year: 1820 },
         text: {
@@ -2228,7 +2230,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Joseph_Haydn.jpg/800px-Joseph_Haydn.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Joseph_Haydn.jpg/800px-Joseph_Haydn.jpg" || fallbackImage },
         start_date: { year: 1791 },
         text: {
           headline: "Joseph Haydn",
@@ -2236,7 +2238,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Beethoven.jpg/800px-Beethoven.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Beethoven.jpg/800px-Beethoven.jpg" || fallbackImage },
         start_date: { year: 1804 },
         text: {
           headline: "Ludwig van Beethoven",
@@ -2244,7 +2246,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg/800px-Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg/800px-Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg" || fallbackImage },
         start_date: { year: 1800 },
         end_date: { year: 1900 },
         text: {
@@ -2253,7 +2255,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Franz_Liszt_1858.jpg/800px-Franz_Liszt_1858.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Franz_Liszt_1858.jpg/800px-Franz_Liszt_1858.jpg" || fallbackImage },
         start_date: { year: 1839 },
         text: {
           headline: "Franz Liszt",
@@ -2261,7 +2263,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Richard_Wagner_circa_1852_-_Hermann_Biow.jpg/800px-Richard_Wagner_circa_1852_-_Hermann_Biow.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Richard_Wagner_circa_1852_-_Hermann_Biow.jpg/800px-Richard_Wagner_circa_1852_-_Hermann_Biow.jpg" || fallbackImage },
         start_date: { year: 1843 },
         text: {
           headline: "Richard Wagner",
@@ -2269,7 +2271,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Robert_Johnson.jpg/800px-Robert_Johnson.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Robert_Johnson.jpg/800px-Robert_Johnson.jpg" || fallbackImage },
         start_date: { year: 1911 },
         text: {
           headline: "Blues",
@@ -2277,7 +2279,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/W._C._Handy%2C_musician%2C_1918.jpg/800px-W._C._Handy%2C_1918.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/W._C._Handy%2C_musician%2C_1918.jpg/800px-W._C._Handy%2C_musician%2C_1918.jpg" || fallbackImage },
         start_date: { year: 1914 },
         text: {
           headline: "W.C. Handy",
@@ -2285,7 +2287,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bessie_Smith_%28cropped%29.jpg/800px-Bessie_Smith_%28cropped%29.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bessie_Smith_%28cropped%29.jpg/800px-Bessie_Smith_%28cropped%29.jpg" || fallbackImage },
         start_date: { year: 1923 },
         text: {
           headline: "Bessie Smith",
@@ -2293,7 +2295,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Louis_Armstrong_restored.jpg/800px-Louis_Armstrong_restored.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Louis_Armstrong_restored.jpg/800px-Louis_Armstrong_restored.jpg" || fallbackImage },
         start_date: { year: 1917 },
         text: {
           headline: "Jazz",
@@ -2301,7 +2303,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Duke_Ellington_-_publicity.jpg/800px-Duke_Ellington_-_publicity.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Duke_Ellington_-_publicity.jpg/800px-Duke_Ellington_-_publicity.jpg" || fallbackImage },
         start_date: { year: 1930 },
         text: {
           headline: "Duke Ellington",
@@ -2309,7 +2311,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Miles_Davis_by_Palumbo.jpg/800px-Miles_Davis_by_Palumbo.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Miles_Davis_by_Palumbo.jpg/800px-Miles_Davis_by_Palumbo.jpg" || fallbackImage },
         start_date: { year: 1959 },
         text: {
           headline: "Miles Davis",
@@ -2317,7 +2319,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Cecil_Scott_Folklore_musicien_2.jpg/800px-Cecil_Scott_Folklore_musicien_2.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Cecil_Scott_Folklore_musicien_2.jpg/800px-Cecil_Scott_Folklore_musicien_2.jpg" || fallbackImage },
         start_date: { year: 1900 },
         end_date: { year: 2025 },
         text: {
@@ -2326,7 +2328,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Woody_Guthrie_1943.jpg/800px-Woody_Guthrie_1943.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Woody_Guthrie_1943.jpg/800px-Woody_Guthrie_1943.jpg" || fallbackImage },
         start_date: { year: 1940 },
         text: {
           headline: "Woody Guthrie",
@@ -2334,7 +2336,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg/800px-Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg/800px-Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg" || fallbackImage },
         start_date: { year: 1950 },
         text: {
           headline: "Pete Seeger",
@@ -2342,15 +2344,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Elvis_Presley_promoting_Jailhouse_Rock.jpg/800px-Elvis_Presley_promoting_Jailhouse_Rock.jpg" },
-        start_date: { year: 1950 },
-        text: {
-          headline: "Naissance du Rock",
-          text: wordDefinitions["rock"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Igor_Stravinsky_LOC_32392u.jpg/800px-Igor_Stravinsky_LOC_32392u.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Igor_Stravinsky_LOC_32392u.jpg/800px-Igor_Stravinsky_LOC_32392u.jpg" || fallbackImage },
         start_date: { year: 1900 },
         end_date: { year: 1945 },
         text: {
@@ -2359,7 +2353,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Arnold_Schoenberg_LA_1938.jpg/800px-Arnold_Schoenberg_LA_1938.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Arnold_Schoenberg_LA_1938.jpg/800px-Arnold_Schoenberg_LA_1938.jpg" || fallbackImage },
         start_date: { year: 1912 },
         text: {
           headline: "Arnold Schoenberg",
@@ -2367,7 +2361,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg/800px-Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg/800px-Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg" || fallbackImage },
         start_date: { year: 1910 },
         text: {
           headline: "Claude Debussy",
@@ -2375,7 +2369,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Philip_Glass_by_Werner_Bartsch.jpg/800px-Philip_Glass_by_Werner_Bartsch.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Philip_Glass_by_Werner_Bartsch.jpg/800px-Philip_Glass_by_Werner_Bartsch.jpg" || fallbackImage },
         start_date: { year: 1945 },
         end_date: { year: 2025 },
         text: {
@@ -2384,7 +2378,7 @@ function initializeTimeline() {
         }
       },
       {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/John_Cage_%281986%29.jpg/800px-John_Cage_%281986%29.jpg" },
+        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/John_Cage_%281986%29.jpg/800px-John_Cage_%281986%29.jpg" || fallbackImage },
         start_date: { year: 1952 },
         text: {
           headline: "John Cage",
@@ -2393,6 +2387,16 @@ function initializeTimeline() {
       }
     ]
   };
+
+  // Ajouter un gestionnaire d'erreurs pour les images
+  timelineData.events.forEach(event => {
+    const img = new Image();
+    img.onerror = () => {
+      console.warn(`Échec du chargement de l'image pour ${event.text.headline}: ${event.media.url}`);
+      event.media.url = fallbackImage;
+    };
+    img.src = event.media.url;
+  });
 
   if (timeline) {
     timeline.goToStart();
@@ -2408,10 +2412,10 @@ function initializeTimeline() {
     initial_zoom: 2
   });
 
-  // Redimensionner la frise après l'initialisation
+  // Redimensionner la frise après l'initialisation avec un délai plus long
   setTimeout(() => {
     window.dispatchEvent(new Event('resize'));
-  }, 100);
+  }, 500);
 }
 
 // Gestion de la modale de la frise
