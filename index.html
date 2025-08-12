@@ -34,72 +34,83 @@
   </header>
 
 <!-- Lecteur audio -->
-    <div class="w-100 p-2 col-md-6 mb-4">
-      <div class="audio-player-wrapper">
-        <div class="card h-100 audio-player-container">
-          <div class="card-body">
-            <h3 class="card-title">Lecteur audio</h3>
-            <input type="file" id="audioFile" class="form-control mb-3" accept="audio/*" />
-            <span id="audioFileName" class="form-text"></span>
-              <canvas id="spectrumCanvas" class="visualization-canvas spectrum"></canvas>
-            <audio id="audioPlayer" class="w-100 audio-player" controls></audio>
-            <button id="toggleControls" class="btn btn-primary mt-3">Contrôles</button>
-            <div id="audioControls" class="audio-controls mt-3">
-              <div class="control-group">
-                <label>Égaliseur :</label>
-                <div class="equalizer-controls">
-                  <label>Basses <input type="range" id="eqLow" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
-                  <label>Médiums <input type="range" id="eqMid" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
-                  <label>Aigus <input type="range" id="eqHigh" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
+<div class="col-md-8 mb-4 w-100 audio-player-wrapper">
+  <div class="card h-100 audio-player-container">
+    <div class="card-body">
+      <h3 class="card-title">Lecteur audio</h3>
+      <input type="file" id="audioFile" class="form-control mb-3" accept="audio/*" />
+      <span id="audioFileName" class="form-text"></span>
+      <canvas id="spectrumCanvas" class="visualization-canvas spectrum"></canvas>
+      <audio id="audioPlayer" class="w-100 audio-player" controls></audio>
+      <button id="toggleControls" class="btn btn-primary mt-3">Contrôles</button>
+      <div id="audioControls" class="audio-controls mt-3">
+        <div class="control-group">
+          <label>Égaliseur :</label>
+          <div class="equalizer-controls">
+            <label>Basses <input type="range" id="eqLow" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
+            <label>Médiums <input type="range" id="eqMid" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
+            <label>Aigus <input type="range" id="eqHigh" min="-12" max="12" step="0.1" value="0" class="form-range" /></label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="volumeControl">Volume :</label>
+          <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" class="form-range" />
+        </div>
+        <div class="control-group">
+          <label for="playbackSpeed">Vitesse de lecture :</label>
+          <select id="playbackSpeed" class="form-control">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="balanceControl">Balance stéréo (Gauche/Droite) :</label>
+          <input type="range" id="balanceControl" min="-1" max="1" step="0.01" value="0" class="form-range" />
+        </div>
+      </div>
+      <div class="visualizations mt-3">
+        <div class="row g-2">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">VU-mètres</h5>
+                <div class="d-flex flex-row gap-2">
+                  <div class="vu-meter-container">
+                    <label>Gauche</label>
+                    <canvas id="vuMeterLeftCanvas" class="visualization-canvas"></canvas>
+                  </div>
+                  <div class="vu-meter-container">
+                    <label>Droite</label>
+                    <canvas id="vuMeterRightCanvas" class="visualization-canvas"></canvas>
+                  </div>
                 </div>
-              </div>
-              <div class="control-group">
-                <label for="volumeControl">Volume :</label>
-                <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1" class="form-range" />
-              </div>
-              <div class="control-group">
-                <label for="playbackSpeed">Vitesse de lecture :</label>
-                <select id="playbackSpeed" class="form-control">
-                  <option value="0.5">0.5x</option>
-                  <option value="1" selected>1x</option>
-                  <option value="1.5">1.5x</option>
-                  <option value="2">2x</option>
-                </select>
-              </div>
-              <div class="control-group">
-                <label for="balanceControl">Balance stéréo (Gauche/Droite) :</label>
-                <input type="range" id="balanceControl" min="-1" max="1" step="0.01" value="0" class="form-range" />
               </div>
             </div>
-            <div class="visualizations mt-3">
-              <h5>VU-mètres</h5>
-              <div class="vu-meters">
-                <div class="vu-meter-container">
-                  <label>Gauche</label>
-                  <canvas id="vuMeterLeftCanvas" class="visualization-canvas"></canvas>
-                </div>
-                <div class="vu-meter-container">
-                  <label>Droite</label>
-                  <canvas id="vuMeterRightCanvas" class="visualization-canvas"></canvas>
-                </div>
-              </div>
-              <h5>Formes d'onde</h5>
-              <div class="waveforms">
-                <div class="waveform-container">
-                  <label>Gauche</label>
-                  <canvas id="waveformLeftCanvas" class="visualization-canvas"></canvas>
-                </div>
-                <div class="waveform-container">
-                  <label>Droite</label>
-                  <canvas id="waveformRightCanvas" class="visualization-canvas"></canvas>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Formes d'onde</h5>
+                <div class="d-flex flex-row gap-2">
+                  <div class="waveform-container">
+                    <label>Gauche</label>
+                    <canvas id="waveformLeftCanvas" class="visualization-canvas"></canvas>
+                  </div>
+                  <div class="waveform-container">
+                    <label>Droite</label>
+                    <canvas id="waveformRightCanvas" class="visualization-canvas"></canvas>
+                  </div>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
       </div>
-      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Boutons de navigation -->
   <div class="col-md-8 mb-4 w-100">
@@ -278,7 +289,7 @@
           <button id="downloadButton" class="btn btn-success">
             <i class="bi bi-download"></i> Télécharger votre commentaire
           </button>
-        </div>
+    </div>
       </div>
     </div>
   </div>

@@ -212,7 +212,9 @@ header p {
 /* Navigation gauche */
 .bg-light {
   background-color: white;
-  border: 5px solid var(--secondary-color);
+  border: 
+
+ 5px solid var(--secondary-color);
   border-radius: var(--border-radius);
 }
 
@@ -255,31 +257,31 @@ header p {
 .section-title h4:hover::after {
   width: 100%;
 }
-
 /* Audio Player */
 .audio-player-wrapper {
   position: relative;
-  padding-top: 10px;
-}
-
-.audio-player-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(to bottom, #ccc, #999);
-  border-radius: calc(var(--border-radius) + 5px);
-  border: 1px solid #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: -1;
 }
 
 .audio-player-container {
   border-radius: var(--border-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: #ffffff;
+  border: 5px solid var(--button-color);
+}
+
+.visualizations {
+  display: none;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+  margin-top: 10px;
+}
+
+.visualizations.active {
+  display: block;
+  opacity: 1;
+  max-height: 500px;
 }
 
 .audio-player {
@@ -408,7 +410,7 @@ header p {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--highlight-color);
+  grens: var(--highlight-color);
   cursor: pointer;
   border: 2px solid #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

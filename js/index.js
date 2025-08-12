@@ -2075,10 +2075,11 @@ async function setupAudioPlayer() {
   const spectrumCanvas = document.getElementById('spectrumCanvas');
   const toggleControls = document.getElementById('toggleControls');
   const audioControls = document.getElementById('audioControls');
+  const visualizations = document.querySelector('.visualizations');
 
   // Vérification des éléments DOM
-  if (!player || !fileInput || !fileNameDisplay || !vuMeterLeftCanvas || !vuMeterRightCanvas || !waveformLeftCanvas || !waveformRightCanvas || !spectrumCanvas || !toggleControls || !audioControls) {
-    console.error('Éléments audio ou affichage non trouvés dans le DOM:', {
+  if (!player || !fileInput || !fileNameDisplay || !vuMeterLeftCanvas || !vuMeterRightCanvas || !waveformLeftCanvas || !waveformRightCanvas || !spectrumCanvas || !toggleControls || !audioControls || !visualizations) {
+    console.error('Éléments audio, affichage ou visualisations non trouvés dans le DOM:', {
       player: !!player,
       fileInput: !!fileInput,
       fileNameDisplay: !!fileNameDisplay,
@@ -2088,7 +2089,8 @@ async function setupAudioPlayer() {
       waveformRightCanvas: !!waveformRightCanvas,
       spectrumCanvas: !!spectrumCanvas,
       toggleControls: !!toggleControls,
-      audioControls: !!audioControls
+      audioControls: !!audioControls,
+      visualizations: !!visualizations
     });
     fileNameDisplay.textContent = 'Aucun fichier chargé';
     return;
@@ -2121,9 +2123,9 @@ async function setupAudioPlayer() {
   midFilter.connect(highFilter);
   highFilter.connect(gainNode);
   gainNode.connect(splitter);
-  splitter.connect(analyserLeft, 0); // Canal gauche pour analyse
-  splitter.connect(analyserRight, 1); // Canal droit pour analyse
-  gainNode.connect(audioContext.destination); // Connexion à la sortie
+  splitter.connect(analyserLeft, 0);
+  splitter.connect(analyserRight, 1);
+  gainNode.connect(audioContext.destination);
 
   // Activer le curseur de balance par défaut
   balanceControl.disabled = false;
@@ -2157,27 +2159,29 @@ async function setupAudioPlayer() {
   // Gestion du bouton Contrôles
   const savedAudioState = await loadAudioStateFromDB();
   const controlsVisible = savedAudioState?.controlsVisible || false;
-  console.log('État initial des contrôles:', controlsVisible);
+  console.log('État initial des contrôles et visualisations:', controlsVisible);
   audioControls.classList.toggle('active', controlsVisible);
+  visualizations.classList.toggle('active', controlsVisible);
   toggleControls.textContent = controlsVisible ? 'Masquer les contrôles' : 'Contrôles';
 
   toggleControls.addEventListener('click', () => {
     console.log('Bouton Contrôles cliqué');
     const isVisible = audioControls.classList.toggle('active');
-    console.log('Nouvel état des contrôles:', isVisible ? 'affiché' : 'masqué');
+    visualizations.classList.toggle('active', isVisible);
+    console.log('Nouvel état des contrôles et visualisations:', isVisible ? 'affiché' : 'masqué');
     toggleControls.textContent = isVisible ? 'Masquer les contrôles' : 'Contrôles';
     updateAudioState();
   });
 
   // Initialisation des canvas
   vuMeterLeftCanvas.width = vuMeterLeftCanvas.offsetWidth;
-  vuMeterLeftCanvas.height = 80; // Hauteur augmentée pour lisibilité
+  vuMeterLeftCanvas.height = 80;
   vuMeterRightCanvas.width = vuMeterRightCanvas.offsetWidth;
-  vuMeterRightCanvas.height = 80; // Hauteur augmentée
+  vuMeterRightCanvas.height = 80;
   waveformLeftCanvas.width = waveformLeftCanvas.offsetWidth;
-  waveformLeftCanvas.height = 80; // Hauteur augmentée
+  waveformLeftCanvas.height = 80;
   waveformRightCanvas.width = waveformRightCanvas.offsetWidth;
-  waveformRightCanvas.height = 80; // Hauteur augmentée
+  waveformRightCanvas.height = 80;
   spectrumCanvas.width = spectrumCanvas.offsetWidth;
   spectrumCanvas.height = 100;
 
@@ -2195,45 +2199,37 @@ async function setupAudioPlayer() {
     analyser.getByteTimeDomainData(dataArray);
     let sum = 0;
     for (let i = 0; i < dataArray.length; i++) {
-      const value = (dataArray[i] - 128) / 128; // Normaliser entre -1 et 1
+      const value = (dataArray[i] - 128) / 128;
       sum += value * value;
     }
     const mean = sum / dataArray.length;
     const rms = Math.sqrt(mean);
-    return Math.max(0, Math.min(1, rms)); // Normaliser entre 0 et 1
+    return Math.max(0, Math.min(1, rms));
   }
 
   // Dessin des VU-mètres à aiguille avec look analogique
   function drawVUMeters() {
     const centerX = vuMeterLeftCanvas.width / 2;
-    const centerY = vuMeterLeftCanvas.height - 15; // Ajusté pour la nouvelle hauteur
+    const centerY = vuMeterLeftCanvas.height - 15;
     const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 25);
-    const startAngle = -Math.PI / 2; // -90°
-    const endAngle = Math.PI / 2; // +90°
+    const startAngle = -Math.PI / 2;
+    const endAngle = Math.PI / 2;
 
     // VU-mètre gauche
     vuMeterLeftCtx.clearRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
-
-    // Fond texturé (gradient radial pour look analogique)
     const gradient = vuMeterLeftCtx.createRadialGradient(centerX, centerY, 10, centerX, centerY, radius);
     gradient.addColorStop(0, '#f0f0f0');
     gradient.addColorStop(1, '#d0d0d0');
     vuMeterLeftCtx.fillStyle = gradient;
     vuMeterLeftCtx.fillRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
-
-    // Cadre analogique
     vuMeterLeftCtx.strokeStyle = '#555';
     vuMeterLeftCtx.lineWidth = 4;
     vuMeterLeftCtx.strokeRect(2, 2, vuMeterLeftCanvas.width - 4, vuMeterLeftCanvas.height - 4);
-
-    // Arc
     vuMeterLeftCtx.beginPath();
     vuMeterLeftCtx.arc(centerX, centerY, radius, startAngle, endAngle);
     vuMeterLeftCtx.lineWidth = 10;
     vuMeterLeftCtx.strokeStyle = '#e0e0e0';
     vuMeterLeftCtx.stroke();
-
-    // Graduations détaillées
     vuMeterLeftCtx.fillStyle = 'var(--font-color)';
     vuMeterLeftCtx.font = '10px var(--body-font)';
     const levels = [-60, -50, -40, -30, -20, -10, 0];
@@ -2248,8 +2244,6 @@ async function setupAudioPlayer() {
       vuMeterLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
       vuMeterLeftCtx.stroke();
     });
-
-    // Aiguille stylisée
     const rmsLeft = calculateRMS(analyserLeft, dataArrayLeft);
     const angleLeft = startAngle + rmsLeft * (endAngle - startAngle);
     vuMeterLeftCtx.beginPath();
@@ -2258,7 +2252,6 @@ async function setupAudioPlayer() {
     vuMeterLeftCtx.lineWidth = 2;
     vuMeterLeftCtx.strokeStyle = 'var(--primary-color)';
     vuMeterLeftCtx.stroke();
-    // Base de l'aiguille (cercle)
     vuMeterLeftCtx.beginPath();
     vuMeterLeftCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
     vuMeterLeftCtx.fillStyle = '#333';
@@ -2269,30 +2262,22 @@ async function setupAudioPlayer() {
 
     // VU-mètre droit
     vuMeterRightCtx.clearRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
-
-    // Fond texturé
     vuMeterRightCtx.fillStyle = gradient;
     vuMeterRightCtx.fillRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
-
-    // Cadre analogique
     vuMeterRightCtx.strokeStyle = '#555';
     vuMeterRightCtx.lineWidth = 4;
     vuMeterRightCtx.strokeRect(2, 2, vuMeterRightCanvas.width - 4, vuMeterRightCanvas.height - 4);
-
     if (isMono) {
       vuMeterRightCtx.fillStyle = 'var(--font-color)';
       vuMeterRightCtx.font = '12px var(--body-font)';
       vuMeterRightCtx.textAlign = 'center';
       vuMeterRightCtx.fillText('Mono', vuMeterRightCanvas.width / 2, vuMeterRightCanvas.height / 2);
     } else {
-      // Arc
       vuMeterRightCtx.beginPath();
       vuMeterRightCtx.arc(centerX, centerY, radius, startAngle, endAngle);
       vuMeterRightCtx.lineWidth = 10;
       vuMeterRightCtx.strokeStyle = '#e0e0e0';
       vuMeterRightCtx.stroke();
-
-      // Graduations détaillées
       vuMeterRightCtx.fillStyle = 'var(--font-color)';
       vuMeterRightCtx.font = '10px var(--body-font)';
       levels.forEach(level => {
@@ -2306,8 +2291,6 @@ async function setupAudioPlayer() {
         vuMeterRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
         vuMeterRightCtx.stroke();
       });
-
-      // Aiguille stylisée
       const rmsRight = calculateRMS(analyserRight, dataArrayRight);
       const angleRight = startAngle + rmsRight * (endAngle - startAngle);
       vuMeterRightCtx.beginPath();
@@ -2316,7 +2299,6 @@ async function setupAudioPlayer() {
       vuMeterRightCtx.lineWidth = 2;
       vuMeterRightCtx.strokeStyle = 'var(--primary-color)';
       vuMeterRightCtx.stroke();
-      // Base de l'aiguille
       vuMeterRightCtx.beginPath();
       vuMeterRightCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
       vuMeterRightCtx.fillStyle = '#333';
@@ -2331,17 +2313,15 @@ async function setupAudioPlayer() {
   function drawWaveform() {
     analyserLeft.getByteTimeDomainData(dataArrayLeft);
     analyserRight.getByteTimeDomainData(dataArrayRight);
-
-    // Forme d'onde gauche (vert)
     waveformLeftCtx.clearRect(0, 0, waveformLeftCanvas.width, waveformLeftCanvas.height);
     waveformLeftCtx.beginPath();
-    waveformLeftCtx.strokeStyle = 'var(--primary-color)'; // Vert
+    waveformLeftCtx.strokeStyle = 'var(--primary-color)';
     waveformLeftCtx.lineWidth = 2;
     let sliceWidth = waveformLeftCanvas.width / bufferLength;
     let x = 0;
     for (let i = 0; i < bufferLength; i++) {
       const v = dataArrayLeft[i] / 128.0;
-      const y = (v * waveformLeftCanvas.height) / 2; // Ajusté pour la nouvelle hauteur
+      const y = (v * waveformLeftCanvas.height) / 2;
       if (i === 0) {
         waveformLeftCtx.moveTo(x, y);
       } else {
@@ -2350,8 +2330,6 @@ async function setupAudioPlayer() {
       x += sliceWidth;
     }
     waveformLeftCtx.stroke();
-
-    // Repères temporels
     waveformLeftCtx.fillStyle = 'var(--font-color)';
     waveformLeftCtx.font = '10px var(--body-font)';
     const duration = player.duration || 60;
@@ -2364,16 +2342,14 @@ async function setupAudioPlayer() {
       waveformLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
       waveformLeftCtx.stroke();
     }
-
-    // Forme d'onde droite (bleu)
     waveformRightCtx.clearRect(0, 0, waveformRightCanvas.width, waveformRightCanvas.height);
     waveformRightCtx.beginPath();
-    waveformRightCtx.strokeStyle = 'var(--highlight-color)'; // Bleu
+    waveformRightCtx.strokeStyle = 'var(--highlight-color)';
     waveformRightCtx.lineWidth = 2;
     x = 0;
     for (let i = 0; i < bufferLength; i++) {
       const v = dataArrayRight[i] / 128.0;
-      const y = (v * waveformRightCanvas.height) / 2; // Ajusté pour la nouvelle hauteur
+      const y = (v * waveformRightCanvas.height) / 2;
       if (i === 0) {
         waveformRightCtx.moveTo(x, y);
       } else {
@@ -2382,8 +2358,6 @@ async function setupAudioPlayer() {
       x += sliceWidth;
     }
     waveformRightCtx.stroke();
-
-    // Repères temporels (droite)
     waveformRightCtx.fillStyle = 'var(--font-color)';
     waveformRightCtx.font = '10px var(--body-font)';
     for (let t = 0; t <= duration; t += 10) {
@@ -2403,27 +2377,24 @@ async function setupAudioPlayer() {
     spectrumCtx.clearRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
     const barWidth = (spectrumCanvas.width / bufferLength) * 2.5;
     const maxFreq = audioContext.sampleRate / 2;
-    const lowFreqLimit = 200; // Hz
-    const midFreqLimit = 4000; // Hz
+    const lowFreqLimit = 200;
+    const midFreqLimit = 4000;
     let x = 0;
-
     for (let i = 0; i < bufferLength; i++) {
       const freq = (i / bufferLength) * maxFreq;
       let color;
       if (freq <= lowFreqLimit) {
-        color = '#ff4c4c'; // Rouge pour graves
+        color = '#ff4c4c';
       } else if (freq <= midFreqLimit) {
-        color = '#ffeb3b'; // Jaune pour médiums
+        color = '#ffeb3b';
       } else {
-        color = '#2196f3'; // Bleu pour aigus
+        color = '#2196f3';
       }
       spectrumCtx.fillStyle = color;
       const barHeight = dataArrayLeft[i];
       spectrumCtx.fillRect(x, spectrumCanvas.height - barHeight / 2, barWidth, barHeight / 2);
       x += barWidth + 1;
     }
-
-    // Repères de fréquences améliorés
     spectrumCtx.fillStyle = 'var(--font-color)';
     spectrumCtx.font = '10px var(--body-font)';
     const freqs = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 15000];
@@ -2440,8 +2411,10 @@ async function setupAudioPlayer() {
 
   // Animation combinée
   function animate() {
-    drawVUMeters();
-    drawWaveform();
+    if (visualizations.classList.contains('active')) {
+      drawVUMeters();
+      drawWaveform();
+    }
     drawSpectrum();
     requestAnimationFrame(animate);
   }
@@ -2482,6 +2455,25 @@ async function setupAudioPlayer() {
     console.log('Égaliseur aigus ajusté:', highFilter.gain.value);
     updateAudioState();
   });
+
+  const updateAudioState = async () => {
+    const state = {
+      time: player.currentTime,
+      isPlaying: !player.paused,
+      duration: player.duration || 0,
+      playbackRate: player.playbackRate,
+      volume: gainNode.gain.value,
+      balance: pannerNode.pan.value,
+      eqLow: lowFilter.gain.value,
+      eqMid: midFilter.gain.value,
+      eqHigh: highFilter.gain.value,
+      controlsVisible: audioControls.classList.contains('active'),
+      visualizationsVisible: visualizations.classList.contains('active')
+    };
+    await saveAudioStateToDB(state);
+    localStorage.setItem('audioState', JSON.stringify(state));
+    console.log('État audio mis à jour:', state);
+  };
 
   // Recharger l'audio sauvegardé
   const savedAudioData = await loadAudioFromDB();
@@ -2547,24 +2539,6 @@ async function setupAudioPlayer() {
     fileNameDisplay.textContent = 'Aucun fichier chargé';
   }
 
-  const updateAudioState = async () => {
-    const state = {
-      time: player.currentTime,
-      isPlaying: !player.paused,
-      duration: player.duration || 0,
-      playbackRate: player.playbackRate,
-      volume: gainNode.gain.value,
-      balance: pannerNode.pan.value,
-      eqLow: lowFilter.gain.value,
-      eqMid: midFilter.gain.value,
-      eqHigh: highFilter.gain.value,
-      controlsVisible: audioControls.classList.contains('active')
-    };
-    await saveAudioStateToDB(state);
-    localStorage.setItem('audioState', JSON.stringify(state));
-    console.log('État audio mis à jour:', state);
-  };
-
   player.addEventListener('timeupdate', updateAudioState);
   player.addEventListener('play', () => {
     audioContext.resume();
@@ -2583,7 +2557,8 @@ async function setupAudioPlayer() {
       eqLow: lowFilter.gain.value,
       eqMid: midFilter.gain.value,
       eqHigh: highFilter.gain.value,
-      controlsVisible: audioControls.classList.contains('active')
+      controlsVisible: audioControls.classList.contains('active'),
+      visualizationsVisible: visualizations.classList.contains('active')
     };
     await saveAudioStateToDB(state);
     localStorage.setItem('audioState', JSON.stringify(state));
