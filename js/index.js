@@ -2186,6 +2186,23 @@ async function setupAudioPlayer() {
     console.log('Nouvel état des contrôles et visualisations:', isVisible ? 'affiché' : 'masqué');
     toggleControls.textContent = isVisible ? 'Masquer les contrôles' : 'Contrôles';
     updateAudioState();
+    if (isVisible) {
+      // Réinitialiser les dimensions et contextes des canvas lorsque les visualisations sont affichées
+      vuMeterLeftCanvas.width = vuMeterLeftCanvas.offsetWidth;
+      vuMeterLeftCanvas.height = 80;
+      vuMeterRightCanvas.width = vuMeterRightCanvas.offsetWidth;
+      vuMeterRightCanvas.height = 80;
+      waveformLeftCanvas.width = waveformLeftCanvas.offsetWidth;
+      waveformLeftCanvas.height = 80;
+      waveformRightCanvas.width = waveformRightCanvas.offsetWidth;
+      waveformRightCanvas.height = 80;
+      // Réacquérir les contextes
+      vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
+      vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
+      waveformLeftCtx = waveformLeftCanvas.getContext('2d');
+      waveformRightCtx = waveformRightCanvas.getContext('2d');
+      console.log('Contextes des canvas réinitialisés pour les visualisations');
+    }
   });
 
   // Initialisation des canvas
@@ -2200,240 +2217,268 @@ async function setupAudioPlayer() {
   spectrumCanvas.width = spectrumCanvas.offsetWidth;
   spectrumCanvas.height = 100;
 
-  // Réacquérir les contextes des canvas
-  const vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
-  const vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
-  const waveformLeftCtx = waveformLeftCanvas.getContext('2d');
-  const waveformRightCtx = waveformRightCanvas.getContext('2d');
-  const spectrumCtx = spectrumCanvas.getContext('2d');
+  // Déclarer les contextes comme variables modifiables
+  let vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
+  let vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
+  let waveformLeftCtx = waveformLeftCanvas.getContext('2d');
+  let waveformRightCtx = waveformRightCanvas.getContext('2d');
+  let spectrumCtx = spectrumCanvas.getContext('2d');
   const bufferLength = analyserLeft.frequencyBinCount;
   const dataArrayLeft = new Uint8Array(bufferLength);
   const dataArrayRight = new Uint8Array(bufferLength);
 
   // Calcul du RMS pour les VU-mètres
   function calculateRMS(analyser, dataArray) {
-    analyser.getByteTimeDomainData(dataArray);
-    let sum = 0;
-    for (let i = 0; i < dataArray.length; i++) {
-      const value = (dataArray[i] - 128) / 128;
-      sum += value * value;
+    try {
+      analyser.getByteTimeDomainData(dataArray);
+      let sum = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        const value = (dataArray[i] - 128) / 128;
+        sum += value * value;
+      }
+      const mean = sum / dataArray.length;
+      const rms = Math.sqrt(mean);
+      return Math.max(0, Math.min(1, rms));
+    } catch (error) {
+      console.error('Erreur lors du calcul du RMS:', error);
+      return 0;
     }
-    const mean = sum / dataArray.length;
-    const rms = Math.sqrt(mean);
-    return Math.max(0, Math.min(1, rms));
   }
 
   // Dessin des VU-mètres à aiguille avec look analogique
   function drawVUMeters() {
-    const centerX = vuMeterLeftCanvas.width / 2;
-    const centerY = vuMeterLeftCanvas.height - 15;
-    const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 25);
-    const startAngle = -Math.PI / 2;
-    const endAngle = Math.PI / 2;
+    try {
+      const centerX = vuMeterLeftCanvas.width / 2;
+      const centerY = vuMeterLeftCanvas.height - 15;
+      const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 25);
+      const startAngle = -Math.PI / 2;
+      const endAngle = Math.PI / 2;
 
-    // VU-mètre gauche
-    vuMeterLeftCtx.clearRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
-    const gradient = vuMeterLeftCtx.createRadialGradient(centerX, centerY, 10, centerX, centerY, radius);
-    gradient.addColorStop(0, '#f0f0f0');
-    gradient.addColorStop(1, '#d0d0d0');
-    vuMeterLeftCtx.fillStyle = gradient;
-    vuMeterLeftCtx.fillRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
-    vuMeterLeftCtx.strokeStyle = '#555';
-    vuMeterLeftCtx.lineWidth = 4;
-    vuMeterLeftCtx.strokeRect(2, 2, vuMeterLeftCanvas.width - 4, vuMeterLeftCanvas.height - 4);
-    vuMeterLeftCtx.beginPath();
-    vuMeterLeftCtx.arc(centerX, centerY, radius, startAngle, endAngle);
-    vuMeterLeftCtx.lineWidth = 10;
-    vuMeterLeftCtx.strokeStyle = '#e0e0e0';
-    vuMeterLeftCtx.stroke();
-    vuMeterLeftCtx.fillStyle = 'var(--font-color)';
-    vuMeterLeftCtx.font = '10px var(--body-font)';
-    const levels = [-60, -50, -40, -30, -20, -10, 0];
-    levels.forEach(level => {
-      const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
-      const x = centerX + Math.cos(angle) * (radius + 5);
-      const y = centerY + Math.sin(angle) * (radius + 5);
-      vuMeterLeftCtx.fillText(`${level} dB`, x - 15, y + 5);
+      // VU-mètre gauche
+      vuMeterLeftCtx.clearRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
+      const gradient = vuMeterLeftCtx.createRadialGradient(centerX, centerY, 10, centerX, centerY, radius);
+      gradient.addColorStop(0, '#f0f0f0');
+      gradient.addColorStop(1, '#d0d0d0');
+      vuMeterLeftCtx.fillStyle = gradient;
+      vuMeterLeftCtx.fillRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
+      vuMeterLeftCtx.strokeStyle = '#555';
+      vuMeterLeftCtx.lineWidth = 4;
+      vuMeterLeftCtx.strokeRect(2, 2, vuMeterLeftCanvas.width - 4, vuMeterLeftCanvas.height - 4);
       vuMeterLeftCtx.beginPath();
-      vuMeterLeftCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
-      vuMeterLeftCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
-      vuMeterLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      vuMeterLeftCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+      vuMeterLeftCtx.lineWidth = 10;
+      vuMeterLeftCtx.strokeStyle = '#e0e0e0';
       vuMeterLeftCtx.stroke();
-    });
-    const rmsLeft = calculateRMS(analyserLeft, dataArrayLeft);
-    const angleLeft = startAngle + rmsLeft * (endAngle - startAngle);
-    vuMeterLeftCtx.beginPath();
-    vuMeterLeftCtx.moveTo(centerX, centerY);
-    vuMeterLeftCtx.lineTo(centerX + Math.cos(angleLeft) * radius, centerY + Math.sin(angleLeft) * radius);
-    vuMeterLeftCtx.lineWidth = 2;
-    vuMeterLeftCtx.strokeStyle = 'var(--primary-color)';
-    vuMeterLeftCtx.stroke();
-    vuMeterLeftCtx.beginPath();
-    vuMeterLeftCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
-    vuMeterLeftCtx.fillStyle = '#333';
-    vuMeterLeftCtx.fill();
-    vuMeterLeftCtx.strokeStyle = '#000';
-    vuMeterLeftCtx.lineWidth = 1;
-    vuMeterLeftCtx.stroke();
-
-    // VU-mètre droit
-    vuMeterRightCtx.clearRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
-    vuMeterRightCtx.fillStyle = gradient;
-    vuMeterRightCtx.fillRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
-    vuMeterRightCtx.strokeStyle = '#555';
-    vuMeterRightCtx.lineWidth = 4;
-    vuMeterRightCtx.strokeRect(2, 2, vuMeterRightCanvas.width - 4, vuMeterRightCanvas.height - 4);
-    if (isMono) {
-      vuMeterRightCtx.fillStyle = 'var(--font-color)';
-      vuMeterRightCtx.font = '12px var(--body-font)';
-      vuMeterRightCtx.textAlign = 'center';
-      vuMeterRightCtx.fillText('Mono', vuMeterRightCanvas.width / 2, vuMeterRightCanvas.height / 2);
-    } else {
-      vuMeterRightCtx.beginPath();
-      vuMeterRightCtx.arc(centerX, centerY, radius, startAngle, endAngle);
-      vuMeterRightCtx.lineWidth = 10;
-      vuMeterRightCtx.strokeStyle = '#e0e0e0';
-      vuMeterRightCtx.stroke();
-      vuMeterRightCtx.fillStyle = 'var(--font-color)';
-      vuMeterRightCtx.font = '10px var(--body-font)';
+      vuMeterLeftCtx.fillStyle = 'var(--font-color)';
+      vuMeterLeftCtx.font = '10px var(--body-font)';
+      const levels = [-60, -50, -40, -30, -20, -10, 0];
       levels.forEach(level => {
         const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
         const x = centerX + Math.cos(angle) * (radius + 5);
         const y = centerY + Math.sin(angle) * (radius + 5);
-        vuMeterRightCtx.fillText(`${level} dB`, x - 15, y + 5);
-        vuMeterRightCtx.beginPath();
-        vuMeterRightCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
-        vuMeterRightCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
-        vuMeterRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-        vuMeterRightCtx.stroke();
+        vuMeterLeftCtx.fillText(`${level} dB`, x - 15, y + 5);
+        vuMeterLeftCtx.beginPath();
+        vuMeterLeftCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+        vuMeterLeftCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
+        vuMeterLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        vuMeterLeftCtx.stroke();
       });
-      const rmsRight = calculateRMS(analyserRight, dataArrayRight);
-      const angleRight = startAngle + rmsRight * (endAngle - startAngle);
-      vuMeterRightCtx.beginPath();
-      vuMeterRightCtx.moveTo(centerX, centerY);
-      vuMeterRightCtx.lineTo(centerX + Math.cos(angleRight) * radius, centerY + Math.sin(angleRight) * radius);
-      vuMeterRightCtx.lineWidth = 2;
-      vuMeterRightCtx.strokeStyle = 'var(--primary-color)';
-      vuMeterRightCtx.stroke();
-      vuMeterRightCtx.beginPath();
-      vuMeterRightCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
-      vuMeterRightCtx.fillStyle = '#333';
-      vuMeterRightCtx.fill();
-      vuMeterRightCtx.strokeStyle = '#000';
-      vuMeterRightCtx.lineWidth = 1;
-      vuMeterRightCtx.stroke();
+      const rmsLeft = calculateRMS(analyserLeft, dataArrayLeft);
+      const angleLeft = startAngle + rmsLeft * (endAngle - startAngle);
+      vuMeterLeftCtx.beginPath();
+      vuMeterLeftCtx.moveTo(centerX, centerY);
+      vuMeterLeftCtx.lineTo(centerX + Math.cos(angleLeft) * radius, centerY + Math.sin(angleLeft) * radius);
+      vuMeterLeftCtx.lineWidth = 2;
+      vuMeterLeftCtx.strokeStyle = 'var(--primary-color)';
+      vuMeterLeftCtx.stroke();
+      vuMeterLeftCtx.beginPath();
+      vuMeterLeftCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+      vuMeterLeftCtx.fillStyle = '#333';
+      vuMeterLeftCtx.fill();
+      vuMeterLeftCtx.strokeStyle = '#000';
+      vuMeterLeftCtx.lineWidth = 1;
+      vuMeterLeftCtx.stroke();
+
+      // VU-mètre droit
+      vuMeterRightCtx.clearRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
+      vuMeterRightCtx.fillStyle = gradient;
+      vuMeterRightCtx.fillRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
+      vuMeterRightCtx.strokeStyle = '#555';
+      vuMeterRightCtx.lineWidth = 4;
+      vuMeterRightCtx.strokeRect(2, 2, vuMeterRightCanvas.width - 4, vuMeterRightCanvas.height - 4);
+      if (isMono) {
+        vuMeterRightCtx.fillStyle = 'var(--font-color)';
+        vuMeterRightCtx.font = '12px var(--body-font)';
+        vuMeterRightCtx.textAlign = 'center';
+        vuMeterRightCtx.fillText('Mono', vuMeterRightCanvas.width / 2, vuMeterRightCanvas.height / 2);
+      } else {
+        vuMeterRightCtx.beginPath();
+        vuMeterRightCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+        vuMeterRightCtx.lineWidth = 10;
+        vuMeterRightCtx.strokeStyle = '#e0e0e0';
+        vuMeterRightCtx.stroke();
+        vuMeterRightCtx.fillStyle = 'var(--font-color)';
+        vuMeterRightCtx.font = '10px var(--body-font)';
+        levels.forEach(level => {
+          const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
+          const x = centerX + Math.cos(angle) * (radius + 5);
+          const y = centerY + Math.sin(angle) * (radius + 5);
+          vuMeterRightCtx.fillText(`${level} dB`, x - 15, y + 5);
+          vuMeterRightCtx.beginPath();
+          vuMeterRightCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+          vuMeterRightCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
+          vuMeterRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+          vuMeterRightCtx.stroke();
+        });
+        const rmsRight = calculateRMS(analyserRight, dataArrayRight);
+        const angleRight = startAngle + rmsRight * (endAngle - startAngle);
+        vuMeterRightCtx.beginPath();
+        vuMeterRightCtx.moveTo(centerX, centerY);
+        vuMeterRightCtx.lineTo(centerX + Math.cos(angleRight) * radius, centerY + Math.sin(angleRight) * radius);
+        vuMeterRightCtx.lineWidth = 2;
+        vuMeterRightCtx.strokeStyle = 'var(--primary-color)';
+        vuMeterRightCtx.stroke();
+        vuMeterRightCtx.beginPath();
+        vuMeterRightCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+        vuMeterRightCtx.fillStyle = '#333';
+        vuMeterRightCtx.fill();
+        vuMeterRightCtx.strokeStyle = '#000';
+        vuMeterRightCtx.lineWidth = 1;
+        vuMeterRightCtx.stroke();
+      }
+    } catch (error) {
+      console.error('Erreur lors du dessin des VU-mètres:', error);
     }
   }
 
   // Visualisation de la forme d'onde (gauche et droite) en couleur
   function drawWaveform() {
-    analyserLeft.getByteTimeDomainData(dataArrayLeft);
-    analyserRight.getByteTimeDomainData(dataArrayRight);
-    waveformLeftCtx.clearRect(0, 0, waveformLeftCanvas.width, waveformLeftCanvas.height);
-    waveformLeftCtx.beginPath();
-    waveformLeftCtx.strokeStyle = 'var(--primary-color)';
-    waveformLeftCtx.lineWidth = 2;
-    let sliceWidth = waveformLeftCanvas.width / bufferLength;
-    let x = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      const v = dataArrayLeft[i] / 128.0;
-      const y = (v * waveformLeftCanvas.height) / 2;
-      if (i === 0) {
-        waveformLeftCtx.moveTo(x, y);
-      } else {
-        waveformLeftCtx.lineTo(x, y);
-      }
-      x += sliceWidth;
-    }
-    waveformLeftCtx.stroke();
-    waveformLeftCtx.fillStyle = 'var(--font-color)';
-    waveformLeftCtx.font = '10px var(--body-font)';
-    const duration = player.duration || 60;
-    for (let t = 0; t <= duration; t += 10) {
-      const xPos = (t / duration) * waveformLeftCanvas.width;
-      waveformLeftCtx.fillText(`${t}s`, xPos, waveformLeftCanvas.height - 5);
+    try {
+      analyserLeft.getByteTimeDomainData(dataArrayLeft);
+      analyserRight.getByteTimeDomainData(dataArrayRight);
+      waveformLeftCtx.clearRect(0, 0, waveformLeftCanvas.width, waveformLeftCanvas.height);
       waveformLeftCtx.beginPath();
-      waveformLeftCtx.moveTo(xPos, 0);
-      waveformLeftCtx.lineTo(xPos, waveformLeftCanvas.height);
-      waveformLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-      waveformLeftCtx.stroke();
-    }
-    waveformRightCtx.clearRect(0, 0, waveformRightCanvas.width, waveformRightCanvas.height);
-    waveformRightCtx.beginPath();
-    waveformRightCtx.strokeStyle = 'var(--highlight-color)';
-    waveformRightCtx.lineWidth = 2;
-    x = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      const v = dataArrayRight[i] / 128.0;
-      const y = (v * waveformRightCanvas.height) / 2;
-      if (i === 0) {
-        waveformRightCtx.moveTo(x, y);
-      } else {
-        waveformRightCtx.lineTo(x, y);
+      waveformLeftCtx.strokeStyle = 'var(--primary-color)';
+      waveformLeftCtx.lineWidth = 2;
+      let sliceWidth = waveformLeftCanvas.width / bufferLength;
+      let x = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        const v = dataArrayLeft[i] / 128.0;
+        const y = (v * waveformLeftCanvas.height) / 2;
+        if (i === 0) {
+          waveformLeftCtx.moveTo(x, y);
+        } else {
+          waveformLeftCtx.lineTo(x, y);
+        }
+        x += sliceWidth;
       }
-      x += sliceWidth;
-    }
-    waveformRightCtx.stroke();
-    waveformRightCtx.fillStyle = 'var(--font-color)';
-    waveformRightCtx.font = '10px var(--body-font)';
-    for (let t = 0; t <= duration; t += 10) {
-      const xPos = (t / duration) * waveformRightCanvas.width;
-      waveformRightCtx.fillText(`${t}s`, xPos, waveformRightCanvas.height - 5);
+      waveformLeftCtx.stroke();
+      waveformLeftCtx.fillStyle = 'var(--font-color)';
+      waveformLeftCtx.font = '10px var(--body-font)';
+      const duration = player.duration || 60;
+      for (let t = 0; t <= duration; t += 10) {
+        const xPos = (t / duration) * waveformLeftCanvas.width;
+        waveformLeftCtx.fillText(`${t}s`, xPos, waveformLeftCanvas.height - 5);
+        waveformLeftCtx.beginPath();
+        waveformLeftCtx.moveTo(xPos, 0);
+        waveformLeftCtx.lineTo(xPos, waveformLeftCanvas.height);
+        waveformLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        waveformLeftCtx.stroke();
+      }
+      waveformRightCtx.clearRect(0, 0, waveformRightCanvas.width, waveformRightCanvas.height);
       waveformRightCtx.beginPath();
-      waveformRightCtx.moveTo(xPos, 0);
-      waveformRightCtx.lineTo(xPos, waveformRightCanvas.height);
-      waveformRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      waveformRightCtx.strokeStyle = 'var(--highlight-color)';
+      waveformRightCtx.lineWidth = 2;
+      x = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        const v = dataArrayRight[i] / 128.0;
+        const y = (v * waveformRightCanvas.height) / 2;
+        if (i === 0) {
+          waveformRightCtx.moveTo(x, y);
+        } else {
+          waveformRightCtx.lineTo(x, y);
+        }
+        x += sliceWidth;
+      }
       waveformRightCtx.stroke();
+      waveformRightCtx.fillStyle = 'var(--font-color)';
+      waveformRightCtx.font = '10px var(--body-font)';
+      for (let t = 0; t <= duration; t += 10) {
+        const xPos = (t / duration) * waveformRightCanvas.width;
+        waveformRightCtx.fillText(`${t}s`, xPos, waveformRightCanvas.height - 5);
+        waveformRightCtx.beginPath();
+        waveformRightCtx.moveTo(xPos, 0);
+        waveformRightCtx.lineTo(xPos, waveformRightCanvas.height);
+        waveformRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        waveformRightCtx.stroke();
+      }
+    } catch (error) {
+      console.error('Erreur lors du dessin des formes d\'onde:', error);
     }
   }
 
   // Visualisation spectrale avec couleurs par plage de fréquences
   function drawSpectrum() {
-    analyserLeft.getByteFrequencyData(dataArrayLeft);
-    spectrumCtx.clearRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
-    const barWidth = (spectrumCanvas.width / bufferLength) * 2.5;
-    const maxFreq = audioContext.sampleRate / 2;
-    const lowFreqLimit = 200;
-    const midFreqLimit = 4000;
-    let x = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      const freq = (i / bufferLength) * maxFreq;
-      let color;
-      if (freq <= lowFreqLimit) {
-        color = '#ff4c4c';
-      } else if (freq <= midFreqLimit) {
-        color = '#ffeb3b';
-      } else {
-        color = '#2196f3';
+    try {
+      analyserLeft.getByteFrequencyData(dataArrayLeft);
+      spectrumCtx.clearRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
+      const barWidth = (spectrumCanvas.width / bufferLength) * 2.5;
+      const maxFreq = audioContext.sampleRate / 2;
+      const lowFreqLimit = 200;
+      const midFreqLimit = 4000;
+      let x = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        const freq = (i / bufferLength) * maxFreq;
+        let color;
+        if (freq <= lowFreqLimit) {
+          color = '#ff4c4c';
+        } else if (freq <= midFreqLimit) {
+          color = '#ffeb3b';
+        } else {
+          color = '#2196f3';
+        }
+        spectrumCtx.fillStyle = color;
+        const barHeight = dataArrayLeft[i];
+        spectrumCtx.fillRect(x, spectrumCanvas.height - barHeight / 2, barWidth, barHeight / 2);
+        x += barWidth + 1;
       }
-      spectrumCtx.fillStyle = color;
-      const barHeight = dataArrayLeft[i];
-      spectrumCtx.fillRect(x, spectrumCanvas.height - barHeight / 2, barWidth, barHeight / 2);
-      x += barWidth + 1;
+      spectrumCtx.fillStyle = 'var(--font-color)';
+      spectrumCtx.font = '10px var(--body-font)';
+      const freqs = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 15000];
+      freqs.forEach(freq => {
+        const xPos = (freq / maxFreq) * spectrumCanvas.width;
+        spectrumCtx.fillText(`${freq < 1000 ? freq : freq / 1000 + 'k'}Hz`, xPos, 15);
+        spectrumCtx.beginPath();
+        spectrumCtx.moveTo(xPos, 0);
+        spectrumCtx.lineTo(xPos, spectrumCanvas.height);
+        spectrumCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        spectrumCtx.stroke();
+      });
+    } catch (error) {
+      console.error('Erreur lors du dessin du spectre:', error);
     }
-    spectrumCtx.fillStyle = 'var(--font-color)';
-    spectrumCtx.font = '10px var(--body-font)';
-    const freqs = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 15000];
-    freqs.forEach(freq => {
-      const xPos = (freq / maxFreq) * spectrumCanvas.width;
-      spectrumCtx.fillText(`${freq < 1000 ? freq : freq / 1000 + 'k'}Hz`, xPos, 15);
-      spectrumCtx.beginPath();
-      spectrumCtx.moveTo(xPos, 0);
-      spectrumCtx.lineTo(xPos, spectrumCanvas.height);
-      spectrumCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-      spectrumCtx.stroke();
-    });
   }
 
   // Gestion de l'animation avec annulation
   let animationId = null;
   function animate() {
-    if (visualizations.classList.contains('active')) {
-      drawVUMeters();
-      drawWaveform();
+    try {
+      // Toujours dessiner le spectre
+      drawSpectrum();
+      // Dessiner les VU-mètres et formes d'onde uniquement si visualisations visibles
+      if (visualizations.classList.contains('active')) {
+        drawVUMeters();
+        drawWaveform();
+      }
+      animationId = requestAnimationFrame(animate);
+    } catch (error) {
+      console.error('Erreur dans la boucle d\'animation:', error);
+      // Arrêter l'animation en cas d'erreur pour éviter une boucle infinie
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
     }
-    drawSpectrum();
-    animationId = requestAnimationFrame(animate);
   }
 
   // Arrêter l'animation lorsque la page est déchargée
@@ -2510,7 +2555,7 @@ async function setupAudioPlayer() {
       const audioUrl = URL.createObjectURL(savedAudioData.blob);
       console.log('URL de l\'audio créé:', audioUrl);
       player.src = audioUrl;
-      player.load(); // Forcer le rechargement de la source
+      player.load();
       fileNameDisplay.textContent = savedAudioData.fileName 
         ? `Fichier chargé : ${savedAudioData.fileName}` 
         : 'Aucun nom de fichier disponible';
