@@ -820,6 +820,24 @@ const wordDefinitions =
         "langue basque": {
           "definition": "Langue isolée, sans lien connu avec d'autres familles, parlée au Pays basque entre la France et l'Espagne."
         },
+  "langues polynésiennes": {
+    "definition": "Groupe de langues austronésiennes parlées dans le triangle polynésien (Hawaï, Île de Pâques, Nouvelle-Zélande), incluant le maori, le tahitien et le samoan, caractérisées par une structure phonologique simple et une forte intercompréhension."
+  },
+  "langues mélanésiennes": {
+    "definition": "Langues austronésiennes et papoues parlées en Mélanésie (Nouvelle-Guinée, Fidji, Vanuatu, etc.), très diverses, comme le tok pisin ou le bislama, souvent influencées par des contacts coloniaux et des langues pidgins."
+  },
+  "langues quechua": {
+    "definition": "Famille de langues indigènes d’Amérique du Sud, principalement parlées dans les Andes (Pérou, Bolivie, Équateur), avec le quechua cuzqueño comme variante notable, issues de l’héritage inca et encore parlées par des millions de locuteurs."
+  },
+  "langues mayas": {
+    "definition": "Groupe de langues indigènes mésoaméricaines parlées au Mexique et en Amérique centrale (Guatemala, Belize), incluant le yucatèque, le k’iche’ ou le tzotzil, avec une riche tradition écrite remontant à la civilisation maya."
+  },
+  "langues tupi-guarani": {
+    "definition": "Famille de langues indigènes d’Amérique du Sud, principalement au Brésil, au Paraguay et en Bolivie, incluant le guarani, langue officielle du Paraguay, et le tupi, autrefois dominant dans la région amazonienne."
+  },
+  "esperanto": {
+    "definition": "Langue construite créée en 1887 par L.L. Zamenhof pour faciliter la communication internationale, avec une grammaire régulière et un vocabulaire dérivé de langues européennes, parlée par une communauté mondiale estimée à plusieurs milliers de locuteurs."
+  },
         "musique occidentale de tradition écrite": {
             "definition": "Style musical savant européen caractérisé par son système de notation et son évolution historique à travers les périodes stylistiques majeures."
         },
@@ -1809,20 +1827,56 @@ const wordDefinitions =
     },
     "transcription": {
         "definition": "Adaptation d'une œuvre musicale pour un instrument ou un ensemble différent."
-    }
+    },
+    "développement thématique": {
+    "definition": "Procédé de composition musicale où un thème principal est transformé, varié ou développé à travers des techniques comme la modulation, l’ornementation ou la fragmentation, pour structurer une œuvre."
+  },
+  "mélodisation": {
+    "definition": "Processus de création ou d’accentuation d’une ligne mélodique claire et expressive, souvent mise en avant comme élément principal d’une composition musicale."
+  },
+  "hétérophonique": {
+    "definition": "Une même mélodie est exécutée simultanément par plusieurs voix ou instruments avec des variations subtiles dans l’ornementation, le rythme ou la hauteur, créant une richesse texturale sans lignes mélodiques indépendantes, comme dans certaines musiques traditionnelles asiatiques ou africaines."
+  },
+  "homophonique": {
+    "definition": "Une voix mélodique principale est soutenue par un accompagnement harmonique, créant une structure verticale dominée par l’harmonie, comme dans les chorals de la période classique."
+  },
+  "polyphonique": {
+    "definition": "Interaction de plusieurs voix mélodiques indépendantes, entrelacées selon des principes de contrepoint, où chaque voix conserve une autonomie rythmique et mélodique, comme dans les fugues ou les motets de la Renaissance."
+  },
+  "monodique": {
+    "definition": "Une seule ligne mélodique, sans accompagnement harmonique ni contrepoint, mettant l’accent sur la pureté de la mélodie, comme dans le chant grégorien ou les monodies profanes de la musique baroque naissante."
+  },
+  "antiphonique": {
+    "definition": "Procédé où deux groupes ou voix alternent ou se répondent dans une composition, souvent utilisé dans les chants liturgiques ou les œuvres chorales."
+  },
+  "sérialisme": {
+    "definition": "Technique de composition du XXe siècle où des séries ordonnées de hauteurs, durées, dynamiques ou timbres sont utilisées pour structurer rigoureusement une œuvre, comme dans les travaux de Schoenberg ou Boulez."
+  },
+  "spectralisme": {
+    "definition": "Courant musical moderne basé sur l’analyse des spectres sonores (fréquences, timbres), utilisant des outils informatiques pour créer des textures et harmonies dérivées des propriétés acoustiques, comme dans les œuvres de Grisey ou Murail."
+  },
+  "minimalisme": {
+    "definition": "Style musical caractérisé par la répétition de motifs simples, des changements graduels et une économie de moyens, souvent hypnotique, comme dans les œuvres de Reich, Glass ou Adams."
+  },
+  "thème": {
+    "definition": "Idée musicale principale, souvent une mélodie ou un motif, servant de base à une composition ou à son développement, comme dans une sonate ou une symphonie."
+  },
+  "période": {
+    "definition": "Structure musicale formée de deux phrases complémentaires (souvent antécédent et conséquent), créant une unité mélodique et harmonique cohérente."
+  },
+  "inversion": {
+    "definition": "Technique où une mélodie ou un motif est transformé en renversant les intervalles (les montées deviennent des descentes et vice versa), utilisée dans le contrepoint ou le sérialisme."
+  },
+  "rétrogradation": {
+    "definition": "Procédé où une mélodie ou une série est jouée à l’envers (du dernier au premier élément), souvent utilisé dans le sérialisme ou les fugues."
+  },
+  "augmentation": {
+    "definition": "Technique où les durées des notes d’un motif ou d’une mélodie sont allongées proportionnellement, ralentissant le rythme tout en conservant la structure mélodique."
+  },
+  "diminution": {
+    "definition": "Technique où les durées des notes d’un motif ou d’une mélodie sont raccourcies proportionnellement, accélérant le rythme tout en préservant la structure mélodique."
+  }
 };
-// ==================== FONCTIONS UTILITAIRES ====================
-function getPageName() {
-  return window.location.pathname.split('/').pop().replace('.html', '');
-}
-
-function saveToLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function loadFromLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key)) || [];
-}
 
 // ==================== GESTION DES MOTS SÉLECTIONNÉS ====================
 function displayWordsForPage(page) {
@@ -1902,6 +1956,682 @@ function loadVideo() {
 
 // ==================== ENREGISTREMENT AUDIO ====================
 async function setupAudioRecorder() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    let audioChunks = [];
+    const recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = e => audioChunks.push(e.data);
+    recorder.onstop = () => {
+      const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      document.getElementById('audioPlayback').src = audioUrl;
+      window.audioBlob = audioBlob;
+    };
+
+    document.getElementById('recordButton').onclick = () => {
+      if (recorder.state === 'inactive') {
+        audioChunks = [];
+        recorder.start();
+        this.textContent = "Arrêter";
+      } else {
+        recorder.stop();
+        this.textContent = "Démarrer";
+      }
+    };
+  } catch (error) {
+    console.error("Erreur microphone:", error);
+  }
+}
+
+// ==================== FONCTIONS IndexedDB ====================
+async function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('AudioDB', 1);
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      db.createObjectStore('audioStore', { keyPath: 'id' });
+    };
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+async function saveAudioToDB(blob, time, fileName) {
+  try {
+    const db = await openDB();
+    const transaction = db.transaction(['audioStore'], 'readwrite');
+    const store = transaction.objectStore('audioStore');
+    const audioData = { id: 'userAudio', blob, time, fileName };
+    await store.put(audioData);
+    console.log('Sauvegarde dans IndexedDB:', audioData); // Log pour vérifier
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde dans IndexedDB:', error);
+    alert('Erreur lors de la sauvegarde du fichier audio.');
+  }
+}
+
+// MODIFICATION: Fonction pour sauvegarder l’état audio (utilisée par le mini-lecteur)
+async function saveAudioStateToDB(state) {
+  try {
+    const db = await openDB();
+    const transaction = db.transaction(['audioStore'], 'readwrite');
+    const store = transaction.objectStore('audioStore');
+    await store.put({ id: 'audioState', ...state });
+    console.log('État audio sauvegardé dans IndexedDB:', state);
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde de l\'état dans IndexedDB:', error);
+  }
+}
+
+async function loadAudioFromDB() {
+  try {
+    const db = await openDB();
+    const transaction = db.transaction(['audioStore'], 'readonly');
+    const store = transaction.objectStore('audioStore');
+    const request = store.get('userAudio');
+    return new Promise((resolve, reject) => {
+      request.onsuccess = (event) => resolve(event.target.result);
+      request.onerror = (event) => reject(event.target.error);
+    });
+  } catch (error) {
+    console.error('Erreur lors du chargement depuis IndexedDB:', error);
+    return null;
+  }
+}
+
+// MODIFICATION: Fonction pour charger l’état audio (utilisée par le mini-lecteur)
+async function loadAudioStateFromDB() {
+  try {
+    const db = await openDB();
+    const transaction = db.transaction(['audioStore'], 'readonly');
+    const store = transaction.objectStore('audioStore');
+    const request = store.get('audioState');
+    return new Promise((resolve, reject) => {
+      request.onsuccess = (event) => resolve(event.target.result);
+      request.onerror = (event) => reject(event.target.error);
+    });
+  } catch (error) {
+    console.error('Erreur lors du chargement de l\'état depuis IndexedDB:', error);
+    return null;
+  }
+}
+
+// ==================== GESTION AUDIO UTILISATEUR ====================
+async function setupAudioPlayer() {
+  const player = document.getElementById('audioPlayer');
+  const fileInput = document.getElementById('audioFile');
+  const fileNameDisplay = document.getElementById('audioFileName');
+  const playbackSpeed = document.getElementById('playbackSpeed');
+  const volumeControl = document.getElementById('volumeControl');
+  const balanceControl = document.getElementById('balanceControl');
+  const eqLow = document.getElementById('eqLow');
+  const eqMid = document.getElementById('eqMid');
+  const eqHigh = document.getElementById('eqHigh');
+  const vuMeterLeftCanvas = document.getElementById('vuMeterLeftCanvas');
+  const vuMeterRightCanvas = document.getElementById('vuMeterRightCanvas');
+  const waveformLeftCanvas = document.getElementById('waveformLeftCanvas');
+  const waveformRightCanvas = document.getElementById('waveformRightCanvas');
+  const spectrumCanvas = document.getElementById('spectrumCanvas');
+  const toggleControls = document.getElementById('toggleControls');
+  const audioControls = document.getElementById('audioControls');
+
+  // Vérification des éléments DOM
+  if (!player || !fileInput || !fileNameDisplay || !vuMeterLeftCanvas || !vuMeterRightCanvas || !waveformLeftCanvas || !waveformRightCanvas || !spectrumCanvas || !toggleControls || !audioControls) {
+    console.error('Éléments audio ou affichage non trouvés dans le DOM:', {
+      player: !!player,
+      fileInput: !!fileInput,
+      fileNameDisplay: !!fileNameDisplay,
+      vuMeterLeftCanvas: !!vuMeterLeftCanvas,
+      vuMeterRightCanvas: !!vuMeterRightCanvas,
+      waveformLeftCanvas: !!waveformLeftCanvas,
+      waveformRightCanvas: !!waveformRightCanvas,
+      spectrumCanvas: !!spectrumCanvas,
+      toggleControls: !!toggleControls,
+      audioControls: !!audioControls
+    });
+    fileNameDisplay.textContent = 'Aucun fichier chargé';
+    return;
+  }
+
+  // Initialisation de Web Audio API
+  const audioContext = new AudioContext();
+  const source = audioContext.createMediaElementSource(player);
+  const analyserLeft = audioContext.createAnalyser();
+  const analyserRight = audioContext.createAnalyser();
+  analyserLeft.fftSize = 2048;
+  analyserRight.fftSize = 2048;
+  const gainNode = audioContext.createGain();
+  const pannerNode = audioContext.createStereoPanner();
+  const lowFilter = audioContext.createBiquadFilter();
+  lowFilter.type = 'lowshelf';
+  lowFilter.frequency.value = 200;
+  const midFilter = audioContext.createBiquadFilter();
+  midFilter.type = 'peaking';
+  midFilter.frequency.value = 1000;
+  const highFilter = audioContext.createBiquadFilter();
+  highFilter.type = 'highshelf';
+  highFilter.frequency.value = 4000;
+
+  // Chaîne audio principale avec analyseurs après les effets
+  const splitter = audioContext.createChannelSplitter(2);
+  source.connect(pannerNode);
+  pannerNode.connect(lowFilter);
+  lowFilter.connect(midFilter);
+  midFilter.connect(highFilter);
+  highFilter.connect(gainNode);
+  gainNode.connect(splitter);
+  splitter.connect(analyserLeft, 0); // Canal gauche pour analyse
+  splitter.connect(analyserRight, 1); // Canal droit pour analyse
+  gainNode.connect(audioContext.destination); // Connexion à la sortie
+
+  // Activer le curseur de balance par défaut
+  balanceControl.disabled = false;
+  balanceControl.title = 'Ajuster la balance stéréo (gauche/droite)';
+
+  // Vérification du nombre de canaux après chargement
+  let isMono = false;
+  async function checkChannels() {
+    try {
+      const response = await fetch(player.src);
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      const channels = audioBuffer.numberOfChannels;
+      console.log(`Nombre de canaux de l'audio : ${channels}`);
+      isMono = channels === 1;
+      if (isMono) {
+        console.warn('Fichier audio mono détecté. Le contrôle de balance stéréo et le VU-mètre droit sont désactivés.');
+        balanceControl.disabled = true;
+        balanceControl.title = 'Non disponible pour les fichiers mono';
+      } else {
+        balanceControl.disabled = false;
+        balanceControl.title = 'Ajuster la balance stéréo (gauche/droite)';
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification des canaux:', error);
+      balanceControl.disabled = false;
+      isMono = false;
+    }
+  }
+
+  // Gestion du bouton Contrôles
+  const savedAudioState = await loadAudioStateFromDB();
+  const controlsVisible = savedAudioState?.controlsVisible || false;
+  console.log('État initial des contrôles:', controlsVisible);
+  audioControls.classList.toggle('active', controlsVisible);
+  toggleControls.textContent = controlsVisible ? 'Masquer les contrôles' : 'Contrôles';
+
+  toggleControls.addEventListener('click', () => {
+    console.log('Bouton Contrôles cliqué');
+    const isVisible = audioControls.classList.toggle('active');
+    console.log('Nouvel état des contrôles:', isVisible ? 'affiché' : 'masqué');
+    toggleControls.textContent = isVisible ? 'Masquer les contrôles' : 'Contrôles';
+    updateAudioState();
+  });
+
+  // Initialisation des canvas
+  vuMeterLeftCanvas.width = vuMeterLeftCanvas.offsetWidth;
+  vuMeterLeftCanvas.height = 80; // Hauteur augmentée pour lisibilité
+  vuMeterRightCanvas.width = vuMeterRightCanvas.offsetWidth;
+  vuMeterRightCanvas.height = 80; // Hauteur augmentée
+  waveformLeftCanvas.width = waveformLeftCanvas.offsetWidth;
+  waveformLeftCanvas.height = 80; // Hauteur augmentée
+  waveformRightCanvas.width = waveformRightCanvas.offsetWidth;
+  waveformRightCanvas.height = 80; // Hauteur augmentée
+  spectrumCanvas.width = spectrumCanvas.offsetWidth;
+  spectrumCanvas.height = 100;
+
+  const vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
+  const vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
+  const waveformLeftCtx = waveformLeftCanvas.getContext('2d');
+  const waveformRightCtx = waveformRightCanvas.getContext('2d');
+  const spectrumCtx = spectrumCanvas.getContext('2d');
+  const bufferLength = analyserLeft.frequencyBinCount;
+  const dataArrayLeft = new Uint8Array(bufferLength);
+  const dataArrayRight = new Uint8Array(bufferLength);
+
+  // Calcul du RMS pour les VU-mètres
+  function calculateRMS(analyser, dataArray) {
+    analyser.getByteTimeDomainData(dataArray);
+    let sum = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      const value = (dataArray[i] - 128) / 128; // Normaliser entre -1 et 1
+      sum += value * value;
+    }
+    const mean = sum / dataArray.length;
+    const rms = Math.sqrt(mean);
+    return Math.max(0, Math.min(1, rms)); // Normaliser entre 0 et 1
+  }
+
+  // Dessin des VU-mètres à aiguille avec look analogique
+  function drawVUMeters() {
+    const centerX = vuMeterLeftCanvas.width / 2;
+    const centerY = vuMeterLeftCanvas.height - 15; // Ajusté pour la nouvelle hauteur
+    const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 25);
+    const startAngle = -Math.PI / 2; // -90°
+    const endAngle = Math.PI / 2; // +90°
+
+    // VU-mètre gauche
+    vuMeterLeftCtx.clearRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
+
+    // Fond texturé (gradient radial pour look analogique)
+    const gradient = vuMeterLeftCtx.createRadialGradient(centerX, centerY, 10, centerX, centerY, radius);
+    gradient.addColorStop(0, '#f0f0f0');
+    gradient.addColorStop(1, '#d0d0d0');
+    vuMeterLeftCtx.fillStyle = gradient;
+    vuMeterLeftCtx.fillRect(0, 0, vuMeterLeftCanvas.width, vuMeterLeftCanvas.height);
+
+    // Cadre analogique
+    vuMeterLeftCtx.strokeStyle = '#555';
+    vuMeterLeftCtx.lineWidth = 4;
+    vuMeterLeftCtx.strokeRect(2, 2, vuMeterLeftCanvas.width - 4, vuMeterLeftCanvas.height - 4);
+
+    // Arc
+    vuMeterLeftCtx.beginPath();
+    vuMeterLeftCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+    vuMeterLeftCtx.lineWidth = 10;
+    vuMeterLeftCtx.strokeStyle = '#e0e0e0';
+    vuMeterLeftCtx.stroke();
+
+    // Graduations détaillées
+    vuMeterLeftCtx.fillStyle = 'var(--font-color)';
+    vuMeterLeftCtx.font = '10px var(--body-font)';
+    const levels = [-60, -50, -40, -30, -20, -10, 0];
+    levels.forEach(level => {
+      const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
+      const x = centerX + Math.cos(angle) * (radius + 5);
+      const y = centerY + Math.sin(angle) * (radius + 5);
+      vuMeterLeftCtx.fillText(`${level} dB`, x - 15, y + 5);
+      vuMeterLeftCtx.beginPath();
+      vuMeterLeftCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+      vuMeterLeftCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
+      vuMeterLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      vuMeterLeftCtx.stroke();
+    });
+
+    // Aiguille stylisée
+    const rmsLeft = calculateRMS(analyserLeft, dataArrayLeft);
+    const angleLeft = startAngle + rmsLeft * (endAngle - startAngle);
+    vuMeterLeftCtx.beginPath();
+    vuMeterLeftCtx.moveTo(centerX, centerY);
+    vuMeterLeftCtx.lineTo(centerX + Math.cos(angleLeft) * radius, centerY + Math.sin(angleLeft) * radius);
+    vuMeterLeftCtx.lineWidth = 2;
+    vuMeterLeftCtx.strokeStyle = 'var(--primary-color)';
+    vuMeterLeftCtx.stroke();
+    // Base de l'aiguille (cercle)
+    vuMeterLeftCtx.beginPath();
+    vuMeterLeftCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+    vuMeterLeftCtx.fillStyle = '#333';
+    vuMeterLeftCtx.fill();
+    vuMeterLeftCtx.strokeStyle = '#000';
+    vuMeterLeftCtx.lineWidth = 1;
+    vuMeterLeftCtx.stroke();
+
+    // VU-mètre droit
+    vuMeterRightCtx.clearRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
+
+    // Fond texturé
+    vuMeterRightCtx.fillStyle = gradient;
+    vuMeterRightCtx.fillRect(0, 0, vuMeterRightCanvas.width, vuMeterRightCanvas.height);
+
+    // Cadre analogique
+    vuMeterRightCtx.strokeStyle = '#555';
+    vuMeterRightCtx.lineWidth = 4;
+    vuMeterRightCtx.strokeRect(2, 2, vuMeterRightCanvas.width - 4, vuMeterRightCanvas.height - 4);
+
+    if (isMono) {
+      vuMeterRightCtx.fillStyle = 'var(--font-color)';
+      vuMeterRightCtx.font = '12px var(--body-font)';
+      vuMeterRightCtx.textAlign = 'center';
+      vuMeterRightCtx.fillText('Mono', vuMeterRightCanvas.width / 2, vuMeterRightCanvas.height / 2);
+    } else {
+      // Arc
+      vuMeterRightCtx.beginPath();
+      vuMeterRightCtx.arc(centerX, centerY, radius, startAngle, endAngle);
+      vuMeterRightCtx.lineWidth = 10;
+      vuMeterRightCtx.strokeStyle = '#e0e0e0';
+      vuMeterRightCtx.stroke();
+
+      // Graduations détaillées
+      vuMeterRightCtx.fillStyle = 'var(--font-color)';
+      vuMeterRightCtx.font = '10px var(--body-font)';
+      levels.forEach(level => {
+        const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
+        const x = centerX + Math.cos(angle) * (radius + 5);
+        const y = centerY + Math.sin(angle) * (radius + 5);
+        vuMeterRightCtx.fillText(`${level} dB`, x - 15, y + 5);
+        vuMeterRightCtx.beginPath();
+        vuMeterRightCtx.moveTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+        vuMeterRightCtx.lineTo(centerX + Math.cos(angle) * (radius - 5), centerY + Math.sin(angle) * (radius - 5));
+        vuMeterRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+        vuMeterRightCtx.stroke();
+      });
+
+      // Aiguille stylisée
+      const rmsRight = calculateRMS(analyserRight, dataArrayRight);
+      const angleRight = startAngle + rmsRight * (endAngle - startAngle);
+      vuMeterRightCtx.beginPath();
+      vuMeterRightCtx.moveTo(centerX, centerY);
+      vuMeterRightCtx.lineTo(centerX + Math.cos(angleRight) * radius, centerY + Math.sin(angleRight) * radius);
+      vuMeterRightCtx.lineWidth = 2;
+      vuMeterRightCtx.strokeStyle = 'var(--primary-color)';
+      vuMeterRightCtx.stroke();
+      // Base de l'aiguille
+      vuMeterRightCtx.beginPath();
+      vuMeterRightCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+      vuMeterRightCtx.fillStyle = '#333';
+      vuMeterRightCtx.fill();
+      vuMeterRightCtx.strokeStyle = '#000';
+      vuMeterRightCtx.lineWidth = 1;
+      vuMeterRightCtx.stroke();
+    }
+  }
+
+  // Visualisation de la forme d'onde (gauche et droite) en couleur
+  function drawWaveform() {
+    analyserLeft.getByteTimeDomainData(dataArrayLeft);
+    analyserRight.getByteTimeDomainData(dataArrayRight);
+
+    // Forme d'onde gauche (vert)
+    waveformLeftCtx.clearRect(0, 0, waveformLeftCanvas.width, waveformLeftCanvas.height);
+    waveformLeftCtx.beginPath();
+    waveformLeftCtx.strokeStyle = 'var(--primary-color)'; // Vert
+    waveformLeftCtx.lineWidth = 2;
+    let sliceWidth = waveformLeftCanvas.width / bufferLength;
+    let x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+      const v = dataArrayLeft[i] / 128.0;
+      const y = (v * waveformLeftCanvas.height) / 2; // Ajusté pour la nouvelle hauteur
+      if (i === 0) {
+        waveformLeftCtx.moveTo(x, y);
+      } else {
+        waveformLeftCtx.lineTo(x, y);
+      }
+      x += sliceWidth;
+    }
+    waveformLeftCtx.stroke();
+
+    // Repères temporels
+    waveformLeftCtx.fillStyle = 'var(--font-color)';
+    waveformLeftCtx.font = '10px var(--body-font)';
+    const duration = player.duration || 60;
+    for (let t = 0; t <= duration; t += 10) {
+      const xPos = (t / duration) * waveformLeftCanvas.width;
+      waveformLeftCtx.fillText(`${t}s`, xPos, waveformLeftCanvas.height - 5);
+      waveformLeftCtx.beginPath();
+      waveformLeftCtx.moveTo(xPos, 0);
+      waveformLeftCtx.lineTo(xPos, waveformLeftCanvas.height);
+      waveformLeftCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      waveformLeftCtx.stroke();
+    }
+
+    // Forme d'onde droite (bleu)
+    waveformRightCtx.clearRect(0, 0, waveformRightCanvas.width, waveformRightCanvas.height);
+    waveformRightCtx.beginPath();
+    waveformRightCtx.strokeStyle = 'var(--highlight-color)'; // Bleu
+    waveformRightCtx.lineWidth = 2;
+    x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+      const v = dataArrayRight[i] / 128.0;
+      const y = (v * waveformRightCanvas.height) / 2; // Ajusté pour la nouvelle hauteur
+      if (i === 0) {
+        waveformRightCtx.moveTo(x, y);
+      } else {
+        waveformRightCtx.lineTo(x, y);
+      }
+      x += sliceWidth;
+    }
+    waveformRightCtx.stroke();
+
+    // Repères temporels (droite)
+    waveformRightCtx.fillStyle = 'var(--font-color)';
+    waveformRightCtx.font = '10px var(--body-font)';
+    for (let t = 0; t <= duration; t += 10) {
+      const xPos = (t / duration) * waveformRightCanvas.width;
+      waveformRightCtx.fillText(`${t}s`, xPos, waveformRightCanvas.height - 5);
+      waveformRightCtx.beginPath();
+      waveformRightCtx.moveTo(xPos, 0);
+      waveformRightCtx.lineTo(xPos, waveformRightCanvas.height);
+      waveformRightCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      waveformRightCtx.stroke();
+    }
+  }
+
+  // Visualisation spectrale avec couleurs par plage de fréquences
+  function drawSpectrum() {
+    analyserLeft.getByteFrequencyData(dataArrayLeft);
+    spectrumCtx.clearRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
+    const barWidth = (spectrumCanvas.width / bufferLength) * 2.5;
+    const maxFreq = audioContext.sampleRate / 2;
+    const lowFreqLimit = 200; // Hz
+    const midFreqLimit = 4000; // Hz
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      const freq = (i / bufferLength) * maxFreq;
+      let color;
+      if (freq <= lowFreqLimit) {
+        color = '#ff4c4c'; // Rouge pour graves
+      } else if (freq <= midFreqLimit) {
+        color = '#ffeb3b'; // Jaune pour médiums
+      } else {
+        color = '#2196f3'; // Bleu pour aigus
+      }
+      spectrumCtx.fillStyle = color;
+      const barHeight = dataArrayLeft[i];
+      spectrumCtx.fillRect(x, spectrumCanvas.height - barHeight / 2, barWidth, barHeight / 2);
+      x += barWidth + 1;
+    }
+
+    // Repères de fréquences améliorés
+    spectrumCtx.fillStyle = 'var(--font-color)';
+    spectrumCtx.font = '10px var(--body-font)';
+    const freqs = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 15000];
+    freqs.forEach(freq => {
+      const xPos = (freq / maxFreq) * spectrumCanvas.width;
+      spectrumCtx.fillText(`${freq < 1000 ? freq : freq / 1000 + 'k'}Hz`, xPos, 15);
+      spectrumCtx.beginPath();
+      spectrumCtx.moveTo(xPos, 0);
+      spectrumCtx.lineTo(xPos, spectrumCanvas.height);
+      spectrumCtx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+      spectrumCtx.stroke();
+    });
+  }
+
+  // Animation combinée
+  function animate() {
+    drawVUMeters();
+    drawWaveform();
+    drawSpectrum();
+    requestAnimationFrame(animate);
+  }
+
+  // Contrôle de la balance stéréo
+  balanceControl.addEventListener('input', () => {
+    pannerNode.pan.value = parseFloat(balanceControl.value);
+    console.log('Balance stéréo ajustée:', pannerNode.pan.value);
+    updateAudioState();
+  });
+
+  // Contrôle de la vitesse de lecture
+  playbackSpeed.addEventListener('change', () => {
+    player.playbackRate = parseFloat(playbackSpeed.value);
+    updateAudioState();
+  });
+
+  // Contrôle du volume
+  volumeControl.addEventListener('input', () => {
+    gainNode.gain.value = parseFloat(volumeControl.value);
+    console.log('Volume ajusté:', gainNode.gain.value);
+    updateAudioState();
+  });
+
+  // Contrôles de l'égaliseur
+  eqLow.addEventListener('input', () => {
+    lowFilter.gain.value = parseFloat(eqLow.value);
+    console.log('Égaliseur basses ajusté:', lowFilter.gain.value);
+    updateAudioState();
+  });
+  eqMid.addEventListener('input', () => {
+    midFilter.gain.value = parseFloat(eqMid.value);
+    console.log('Égaliseur médiums ajusté:', midFilter.gain.value);
+    updateAudioState();
+  });
+  eqHigh.addEventListener('input', () => {
+    highFilter.gain.value = parseFloat(eqHigh.value);
+    console.log('Égaliseur aigus ajusté:', highFilter.gain.value);
+    updateAudioState();
+  });
+
+  // Recharger l'audio sauvegardé
+  const savedAudioData = await loadAudioFromDB();
+  console.log('Données récupérées de IndexedDB:', savedAudioData);
+
+  if (savedAudioData && savedAudioData.blob) {
+    try {
+      const audioUrl = URL.createObjectURL(savedAudioData.blob);
+      player.src = audioUrl;
+      fileNameDisplay.textContent = savedAudioData.fileName 
+        ? `Fichier chargé : ${savedAudioData.fileName}` 
+        : 'Aucun nom de fichier disponible';
+      console.log('Nom affiché:', fileNameDisplay.textContent);
+
+      const savedTime = savedAudioState?.time || parseFloat(savedAudioData.time || 0);
+      const isPlaying = savedAudioState?.isPlaying || false;
+      const savedPlaybackRate = savedAudioState?.playbackRate || 1;
+      const savedVolume = savedAudioState?.volume || 1;
+      const savedBalance = savedAudioState?.balance || 0;
+      const savedEqLow = savedAudioState?.eqLow || 0;
+      const savedEqMid = savedAudioState?.eqMid || 0;
+      const savedEqHigh = savedAudioState?.eqHigh || 0;
+
+      player.playbackRate = savedPlaybackRate;
+      gainNode.gain.value = savedVolume;
+      pannerNode.pan.value = savedBalance;
+      lowFilter.gain.value = savedEqLow;
+      midFilter.gain.value = savedEqMid;
+      highFilter.gain.value = savedEqHigh;
+
+      playbackSpeed.value = savedPlaybackRate;
+      volumeControl.value = savedVolume;
+      balanceControl.value = savedBalance;
+      eqLow.value = savedEqLow;
+      eqMid.value = savedEqMid;
+      eqHigh.value = savedEqHigh;
+
+      player.addEventListener('canplaythrough', () => {
+        player.currentTime = savedTime;
+        console.log('Audio prêt, minutage appliqué:', player.currentTime);
+        checkChannels();
+        if (isPlaying) {
+          player.play().catch(err => {
+            console.error('Erreur lors de la lecture automatique:', err);
+            alert('Erreur lors de la lecture automatique. Cliquez sur play pour continuer.');
+          });
+        }
+        animate();
+      }, { once: true });
+
+      player.addEventListener('error', (e) => {
+        console.error('Erreur lors du chargement de l\'audio:', e);
+        alert('Erreur lors du rechargement du fichier audio. Veuillez réimporter le fichier.');
+        fileNameDisplay.textContent = 'Erreur lors du chargement';
+      }, { once: true });
+    } catch (error) {
+      console.error('Erreur lors de la configuration de l\'audio:', error);
+      alert('Erreur lors du rechargement de l\'audio. Essayez de réimporter le fichier.');
+      fileNameDisplay.textContent = 'Erreur lors du chargement';
+    }
+  } else {
+    console.log('Aucun audio sauvegardé dans IndexedDB');
+    fileNameDisplay.textContent = 'Aucun fichier chargé';
+  }
+
+  const updateAudioState = async () => {
+    const state = {
+      time: player.currentTime,
+      isPlaying: !player.paused,
+      duration: player.duration || 0,
+      playbackRate: player.playbackRate,
+      volume: gainNode.gain.value,
+      balance: pannerNode.pan.value,
+      eqLow: lowFilter.gain.value,
+      eqMid: midFilter.gain.value,
+      eqHigh: highFilter.gain.value,
+      controlsVisible: audioControls.classList.contains('active')
+    };
+    await saveAudioStateToDB(state);
+    localStorage.setItem('audioState', JSON.stringify(state));
+    console.log('État audio mis à jour:', state);
+  };
+
+  player.addEventListener('timeupdate', updateAudioState);
+  player.addEventListener('play', () => {
+    audioContext.resume();
+    updateAudioState();
+    animate();
+  });
+  player.addEventListener('pause', updateAudioState);
+  player.addEventListener('ended', async () => {
+    const state = { 
+      time: 0, 
+      isPlaying: false, 
+      duration: player.duration || 0, 
+      playbackRate: player.playbackRate, 
+      volume: gainNode.gain.value, 
+      balance: pannerNode.pan.value,
+      eqLow: lowFilter.gain.value,
+      eqMid: midFilter.gain.value,
+      eqHigh: highFilter.gain.value,
+      controlsVisible: audioControls.classList.contains('active')
+    };
+    await saveAudioStateToDB(state);
+    localStorage.setItem('audioState', JSON.stringify(state));
+  });
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      console.log('Aucun fichier sélectionné');
+      fileNameDisplay.textContent = 'Aucun fichier chargé';
+      return;
+    }
+
+    console.log('Importation d\'un nouveau fichier:', file.name, 'Taille (octets):', file.size);
+    fileNameDisplay.textContent = `Fichier chargé : ${file.name}`;
+    localStorage.setItem('audioFileName', file.name);
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const audioData = e.target.result;
+        player.src = audioData;
+        player.load();
+        await saveAudioToDB(file, 0, file.name);
+        console.log('Nouveau fichier audio sauvegardé dans IndexedDB');
+        player.addEventListener('canplaythrough', () => {
+          player.currentTime = 0;
+          updateAudioState();
+          checkChannels();
+          animate();
+        }, { once: true });
+      } catch (error) {
+        console.error('Erreur lors du chargement du nouveau fichier:', error);
+        alert('Erreur lors du chargement du fichier audio.');
+        fileNameDisplay.textContent = 'Erreur lors du chargement';
+      }
+    };
+    reader.onerror = (e) => {
+      console.error('Erreur de lecture du fichier:', e);
+      alert('Impossible de lire le fichier audio.');
+      fileNameDisplay.textContent = 'Erreur lors du chargement';
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// ==================== ENREGISTREMENT AUDIO ====================
+async function setupAudioRecorder() {
   const recordButton = document.getElementById('recordButton');
   const recordingIndicator = document.getElementById('recordingIndicator');
   const recordingConfirmation = document.getElementById('recordingConfirmation');
@@ -1957,6 +2687,7 @@ async function setupAudioRecorder() {
         console.log('Enregistrement démarré');
       } catch (error) {
         console.error('Erreur microphone:', error);
+        // Pas d'alerte, comme demandé
       }
     } else {
       recorder.stop();
@@ -1964,477 +2695,146 @@ async function setupAudioRecorder() {
   };
 }
 
-// ==================== FONCTIONS IndexedDB ====================
-async function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open('AudioDB', 1);
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      db.createObjectStore('audioStore', { keyPath: 'id' });
-    };
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = (event) => reject(event.target.error);
-  });
-}
+// ==================== INITIALISATION ====================
+document.addEventListener("DOMContentLoaded", async () => {
+  const currentPage = getPageName();
+  console.log('Page actuelle:', currentPage);
+  if (currentPage === '' || currentPage === 'index') {
+    console.log('Initialisation de setupAudioPlayer sur la page principale');
+    await setupAudioPlayer();
 
-async function saveAudioToDB(blob, time, fileName) {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readwrite');
-    const store = transaction.objectStore('audioStore');
-    const audioData = { id: 'userAudio', blob, time, fileName };
-    await store.put(audioData);
-    console.log('Sauvegarde dans IndexedDB:', audioData);
-  } catch (error) {
-    console.error('Erreur lors de la sauvegarde dans IndexedDB:', error);
-    alert('Erreur lors de la sauvegarde du fichier audio.');
-  }
-}
-
-async function saveAudioStateToDB(state) {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readwrite');
-    const store = transaction.objectStore('audioStore');
-    await store.put({ id: 'audioState', ...state });
-    console.log('État audio sauvegardé dans IndexedDB:', state);
-  } catch (error) {
-    console.error('Erreur lors de la sauvegarde de l\'état dans IndexedDB:', error);
-  }
-}
-
-async function loadAudioFromDB() {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readonly');
-    const store = transaction.objectStore('audioStore');
-    const request = store.get('userAudio');
-    return new Promise((resolve, reject) => {
-      request.onsuccess = (event) => resolve(event.target.result);
-      request.onerror = (event) => reject(event.target.error);
-    });
-  } catch (error) {
-    console.error('Erreur lors du chargement depuis IndexedDB:', error);
-    return null;
-  }
-}
-
-async function loadAudioStateFromDB() {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readonly');
-    const store = transaction.objectStore('audioStore');
-    const request = store.get('audioState');
-    return new Promise((resolve, reject) => {
-      request.onsuccess = (event) => resolve(event.target.result);
-      request.onerror = (event) => reject(event.target.error);
-    });
-  } catch (error) {
-    console.error('Erreur lors du chargement de l\'état depuis IndexedDB:', error);
-    return null;
-  }
-}
-
-// ==================== GESTION AUDIO UTILISATEUR ====================
-async function setupAudioPlayer() {
-  const player = document.getElementById('audioPlayer');
-  const source = document.getElementById('audioSource');
-  const fileInput = document.getElementById('audioFile');
-  const fileNameDisplay = document.getElementById('audioFileName');
-
-  if (!player || !source || !fileInput || !fileNameDisplay) {
-    console.error('Éléments audio ou affichage du nom non trouvés dans le DOM:', {
-      player: !!player,
-      source: !!source,
-      fileInput: !!fileInput,
-      fileNameDisplay: !!fileNameDisplay
-    });
-    if (fileNameDisplay) fileNameDisplay.textContent = 'Aucun fichier chargé';
-    return;
+    // Sauvegarde et restauration du brouillon de commentaire
+    const commentText = document.getElementById('commentText');
+    if (commentText) {
+      const savedDraft = localStorage.getItem('commentDraft');
+      if (savedDraft) {
+        commentText.value = savedDraft;
+      }
+      commentText.addEventListener('input', () => {
+        localStorage.setItem('commentDraft', commentText.value);
+      });
+      const generateTextButton = document.getElementById('generateTextButton');
+      if (generateTextButton) {
+        generateTextButton.addEventListener('click', () => {
+          if (commentText.value.trim()) {
+            localStorage.removeItem('commentDraft');
+            commentText.value = '';
+          }
+        });
+      }
+    } else {
+      console.warn('Champ de commentaire avec id="commentText" non trouvé.');
+    }
   }
 
-  const savedAudioData = await loadAudioFromDB();
-  const savedAudioState = await loadAudioStateFromDB();
-  console.log('Données récupérées de IndexedDB:', savedAudioData);
-  if (savedAudioData && savedAudioData.blob) {
+  Object.keys(PAGES).forEach(displayWordsForPage);
+
+  const savedVideoID = localStorage.getItem('youtubeVideoID');
+  if (savedVideoID) {
+    document.getElementById('youtubePlayer').src = `https://www.youtube.com/embed/${savedVideoID}`;
+    document.getElementById('videoUrl').value = `https://youtu.be/${savedVideoID}`;
+  }
+
+  setupAudioRecorder();
+
+  document.getElementById('downloadButton').onclick = async () => {
+    if (!window.audioBlob) return alert('Aucun enregistrement disponible');
+
+    const fileName = document.getElementById('fileName').value || 'enregistrement';
+    
+    // Convertir WAV en MP3
     try {
-      const audioUrl = URL.createObjectURL(savedAudioData.blob);
-      source.src = audioUrl;
-      player.load();
-      console.log('Audio chargé dans le lecteur');
+      const arrayBuffer = await window.audioBlob.arrayBuffer();
+      const audioContext = new AudioContext();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-      fileNameDisplay.textContent = savedAudioData.fileName 
-        ? `Fichier chargé : ${savedAudioData.fileName}` 
-        : 'Aucun nom de fichier disponible';
-      console.log('Nom affiché:', fileNameDisplay.textContent);
+      // Extraire les données audio (mono ou stéréo)
+      const channels = audioBuffer.numberOfChannels;
+      const sampleRate = audioBuffer.sampleRate;
+      const length = audioBuffer.length;
+      const channelData = [];
+      for (let i = 0; i < channels; i++) {
+        channelData.push(audioBuffer.getChannelData(i));
+      }
 
-      const savedTime = savedAudioState?.time || parseFloat(savedAudioData.time || 0);
-      const isPlaying = savedAudioState?.isPlaying || false;
-      console.log('Minutage à restaurer:', savedTime, 'Lecture:', isPlaying);
+      // Initialiser Lamejs
+      const mp3Encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128); // 128 kbps
+      const mp3Data = [];
+      const sampleBlockSize = 1152; // Taille des blocs pour Lamejs
 
-      player.addEventListener('canplaythrough', () => {
-        player.currentTime = savedTime;
-        console.log('Audio prêt, minutage appliqué:', player.currentTime);
-        if (isPlaying) {
-          player.play().catch(err => {
-            console.error('Erreur lors de la lecture automatique:', err);
-            alert('Erreur lors de la lecture automatique. Cliquez sur play pour continuer.');
-          });
+      for (let i = 0; i < length; i += sampleBlockSize) {
+        const left = channelData[0].slice(i, i + sampleBlockSize);
+        const right = channels > 1 ? channelData[1].slice(i, i + sampleBlockSize) : left;
+
+        // Convertir les échantillons en entiers 16 bits
+        const leftInt = Int16Array.from(left, x => x * 32767);
+        const rightInt = Int16Array.from(right, x => x * 32767);
+
+        // Encoder en MP3
+        const mp3buf = mp3Encoder.encodeBuffer(leftInt, rightInt);
+        if (mp3buf.length > 0) {
+          mp3Data.push(mp3buf);
         }
-      }, { once: true });
+      }
 
-      player.addEventListener('error', (e) => {
-        console.error('Erreur lors du chargement de l\'audio:', e);
-        alert('Erreur lors du rechargement du fichier audio. Veuillez réimporter le fichier.');
-        fileNameDisplay.textContent = 'Erreur lors du chargement';
-      }, { once: true });
+      // Finaliser l'encodage
+      const mp3buf = mp3Encoder.flush();
+      if (mp3buf.length > 0) {
+        mp3Data.push(mp3buf);
+      }
+
+      // Créer le Blob MP3
+      const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(mp3Blob);
+      link.download = `${fileName}.mp3`;
+      link.click();
+      console.log('Fichier MP3 téléchargé:', `${fileName}.mp3`);
     } catch (error) {
-      console.error('Erreur lors de la configuration de l\'audio:', error);
-      alert('Erreur lors du rechargement de l\'audio. Essayez de réimporter le fichier.');
-      fileNameDisplay.textContent = 'Erreur lors du chargement';
+      console.error('Erreur lors de la conversion en MP3:', error);
+      alert('Erreur lors de la conversion en MP3. Téléchargement en WAV à la place.');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(window.audioBlob);
+      link.download = `${fileName}.wav`;
+      link.click();
     }
-  } else {
-    console.log('Aucun audio sauvegardé dans IndexedDB');
-    fileNameDisplay.textContent = 'Aucun fichier chargé';
-  }
-
-  const updateAudioState = async () => {
-    const state = {
-      time: player.currentTime,
-      isPlaying: !player.paused,
-      duration: player.duration || 0
-    };
-    await saveAudioStateToDB(state);
-    localStorage.setItem('audioState', JSON.stringify(state));
-    console.log('État audio mis à jour:', state);
   };
-
-  player.addEventListener('timeupdate', updateAudioState);
-  player.addEventListener('play', updateAudioState);
-  player.addEventListener('pause', updateAudioState);
-  player.addEventListener('ended', async () => {
-    const state = { time: 0, isPlaying: false, duration: player.duration || 0 };
-    await saveAudioStateToDB(state);
-    localStorage.setItem('audioState', JSON.stringify(state));
-  });
-
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'audioState') {
-      const state = JSON.parse(event.newValue);
-      if (state) {
-        player.currentTime = state.time;
-        if (state.isPlaying && player.paused) {
-          player.play().catch(err => console.error('Erreur lecture principale:', err));
-        } else if (!state.isPlaying && !player.paused) {
-          player.pause();
-        }
-      }
-    }
-  });
-
-  fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      console.log('Aucun fichier sélectionné');
-      fileNameDisplay.textContent = 'Aucun fichier chargé';
-      return;
-    }
-
-    console.log('Importation d\'un nouveau fichier:', file.name, 'Taille (octets):', file.size);
-    fileNameDisplay.textContent = `Fichier chargé : ${file.name}`;
-    localStorage.setItem('audioFileName', file.name);
-
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const audioData = e.target.result;
-        source.src = audioData;
-        player.load();
-        await saveAudioToDB(file, 0, file.name);
-        console.log('Nouveau fichier audio sauvegardé dans IndexedDB');
-        player.addEventListener('canplaythrough', () => {
-          player.currentTime = 0;
-          updateAudioState();
-        }, { once: true });
-      } catch (error) {
-        console.error('Erreur lors du chargement du nouveau fichier:', error);
-        alert('Erreur lors du chargement du fichier audio.');
-        fileNameDisplay.textContent = 'Erreur lors du chargement';
-      }
-    };
-    reader.onerror = (e) => {
-      console.error('Erreur de lecture du fichier:', e);
-      alert('Impossible de lire le fichier audio.');
-      fileNameDisplay.textContent = 'Erreur lors du chargement';
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-// ==================== FRISE CHRONOLOGIQUE INTERACTIVE ====================
-let timeline = null;
-
-function initializeTimeline() {
-  const fallbackImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png"; // Image de secours
-
-  const timelineData = {
-    title: {
-      text: {
-        headline: "Frise chronologique musicale",
-        text: "Explorez les grandes périodes et événements de l'histoire de la musique."
-      }
-    },
-    events: [
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gregorian_chant_-_Liber_Usualis.jpg/800px-Gregorian_chant_-_Liber_Usualis.jpg" || fallbackImage },
-        start_date: { year: 500 },
-        end_date: { year: 1400 },
-        text: {
-          headline: "Moyen Âge",
-          text: wordDefinitions["musique du Moyen-Age"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Josquin.jpg/800px-Josquin.jpg" || fallbackImage },
-        start_date: { year: 1400 },
-        end_date: { year: 1600 },
-        text: {
-          headline: "Renaissance",
-          text: wordDefinitions["musique de la Renaissance"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Claudio_Monteverdi.jpg/800px-Claudio_Monteverdi.jpg" || fallbackImage },
-        start_date: { year: 1600 },
-        end_date: { year: 1750 },
-        text: {
-          headline: "Période Baroque",
-          text: wordDefinitions["style baroque"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Johann_Sebastian_Bach.jpg/800px-Johann_Sebastian_Bach.jpg" || fallbackImage },
-        start_date: { year: 1710 },
-        text: {
-          headline: "Johann Sebastian Bach",
-          text: "Johann Sebastian Bach, maître du Baroque, compose des œuvres complexes comme les Concertos Brandebourgeois et la Passion selon Saint-Matthieu."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg/800px-Wolfgang_Amadeus_Mozart_by_Johann_Nepomuk_della_Croce.jpg" || fallbackImage },
-        start_date: { year: 1750 },
-        end_date: { year: 1820 },
-        text: {
-          headline: "Période Classique",
-          text: wordDefinitions["style classique"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Joseph_Haydn.jpg/800px-Joseph_Haydn.jpg" || fallbackImage },
-        start_date: { year: 1791 },
-        text: {
-          headline: "Joseph Haydn",
-          text: "Joseph Haydn, père de la symphonie, compose plus de 100 symphonies, dont la célèbre 'Symphonie Surprise'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Beethoven.jpg/800px-Beethoven.jpg" || fallbackImage },
-        start_date: { year: 1804 },
-        text: {
-          headline: "Ludwig van Beethoven",
-          text: "Ludwig van Beethoven révolutionne la musique classique avec sa Symphonie n°3 'Eroica', marquant le début du romantisme."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg/800px-Fr%C3%A9d%C3%A9ric_Chopin_by_Bisson%2C_1849.jpg" || fallbackImage },
-        start_date: { year: 1800 },
-        end_date: { year: 1900 },
-        text: {
-          headline: "Période Romantique",
-          text: wordDefinitions["style romantique"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Franz_Liszt_1858.jpg/800px-Franz_Liszt_1858.jpg" || fallbackImage },
-        start_date: { year: 1839 },
-        text: {
-          headline: "Franz Liszt",
-          text: "Franz Liszt, pianiste virtuose et compositeur romantique, révolutionne la musique pour piano avec ses Rhapsodies hongroises."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Richard_Wagner_circa_1852_-_Hermann_Biow.jpg/800px-Richard_Wagner_circa_1852_-_Hermann_Biow.jpg" || fallbackImage },
-        start_date: { year: 1843 },
-        text: {
-          headline: "Richard Wagner",
-          text: "Richard Wagner, géant du romantisme, crée des opéras monumentaux comme 'L'Anneau du Nibelung', redéfinissant le drame musical."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Robert_Johnson.jpg/800px-Robert_Johnson.jpg" || fallbackImage },
-        start_date: { year: 1911 },
-        text: {
-          headline: "Blues",
-          text: wordDefinitions["blues traditionnel"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/W._C._Handy%2C_musician%2C_1918.jpg/800px-W._C._Handy%2C_musician%2C_1918.jpg" || fallbackImage },
-        start_date: { year: 1914 },
-        text: {
-          headline: "W.C. Handy",
-          text: "W.C. Handy, 'père du blues', popularise le style avec des chansons comme 'St. Louis Blues'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bessie_Smith_%28cropped%29.jpg/800px-Bessie_Smith_%28cropped%29.jpg" || fallbackImage },
-        start_date: { year: 1923 },
-        text: {
-          headline: "Bessie Smith",
-          text: "Bessie Smith, 'impératrice du blues', captive avec sa voix puissante dans des enregistrements comme 'Downhearted Blues'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Louis_Armstrong_restored.jpg/800px-Louis_Armstrong_restored.jpg" || fallbackImage },
-        start_date: { year: 1917 },
-        text: {
-          headline: "Jazz",
-          text: wordDefinitions["jazz"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Duke_Ellington_-_publicity.jpg/800px-Duke_Ellington_-_publicity.jpg" || fallbackImage },
-        start_date: { year: 1930 },
-        text: {
-          headline: "Duke Ellington",
-          text: "Duke Ellington, pionnier du jazz orchestral, compose des standards comme 'It Don't Mean a Thing'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Miles_Davis_by_Palumbo.jpg/800px-Miles_Davis_by_Palumbo.jpg" || fallbackImage },
-        start_date: { year: 1959 },
-        text: {
-          headline: "Miles Davis",
-          text: wordDefinitions["jazz"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Cecil_Scott_Folklore_musicien_2.jpg/800px-Cecil_Scott_Folklore_musicien_2.jpg" || fallbackImage },
-        start_date: { year: 1900 },
-        end_date: { year: 2025 },
-        text: {
-          headline: "Musiques Traditionnelles / Folk",
-          text: wordDefinitions["musiques traditionnelles / folk"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Woody_Guthrie_1943.jpg/800px-Woody_Guthrie_1943.jpg" || fallbackImage },
-        start_date: { year: 1940 },
-        text: {
-          headline: "Woody Guthrie",
-          text: "Woody Guthrie, icône du folk américain, chante les luttes sociales avec 'This Land Is Your Land'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg/800px-Pete_Seeger_-_6-16-07_Photo_by_Anthony_Pepitone.jpg" || fallbackImage },
-        start_date: { year: 1950 },
-        text: {
-          headline: "Pete Seeger",
-          text: "Pete Seeger popularise le folk avec des chansons engagées comme 'Where Have All the Flowers Gone?'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Igor_Stravinsky_LOC_32392u.jpg/800px-Igor_Stravinsky_LOC_32392u.jpg" || fallbackImage },
-        start_date: { year: 1900 },
-        end_date: { year: 1945 },
-        text: {
-          headline: "Musique Moderne",
-          text: wordDefinitions["musique moderne"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Arnold_Schoenberg_LA_1938.jpg/800px-Arnold_Schoenberg_LA_1938.jpg" || fallbackImage },
-        start_date: { year: 1912 },
-        text: {
-          headline: "Arnold Schoenberg",
-          text: "Arnold Schoenberg invente la musique atonale et le dodécaphonisme, révolutionnant la composition moderne."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg/800px-Claude_Debussy_ca_1908%2C_foto_otto_Weger.jpg" || fallbackImage },
-        start_date: { year: 1910 },
-        text: {
-          headline: "Claude Debussy",
-          text: "Claude Debussy, pionnier de l’impressionnisme musical, compose des œuvres comme 'Prélude à l’après-midi d’un faune'."
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Philip_Glass_by_Werner_Bartsch.jpg/800px-Philip_Glass_by_Werner_Bartsch.jpg" || fallbackImage },
-        start_date: { year: 1945 },
-        end_date: { year: 2025 },
-        text: {
-          headline: "Musique Contemporaine",
-          text: wordDefinitions["musique contemporaine"].definition
-        }
-      },
-      {
-        media: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/John_Cage_%281986%29.jpg/800px-John_Cage_%281986%29.jpg" || fallbackImage },
-        start_date: { year: 1952 },
-        text: {
-          headline: "John Cage",
-          text: "John Cage repousse les limites de la musique contemporaine avec des œuvres expérimentales comme '4’33”'."
-        }
-      }
-    ]
-  };
-
-  // Ajouter un gestionnaire d'erreurs pour les images
-  timelineData.events.forEach(event => {
-    const img = new Image();
-    img.onerror = () => {
-      console.warn(`Échec du chargement de l'image pour ${event.text.headline}: ${event.media.url}`);
-      event.media.url = fallbackImage;
-    };
-    img.src = event.media.url;
-  });
-
-  if (timeline) {
-    timeline.goToStart();
-    return;
-  }
-
-  timeline = new TL.Timeline('timeline-embed', timelineData, {
-    height: 500,
-    font: 'open-sans',
-    language: 'fr',
-    default_bg_color: '#f8f9fa',
-    scale_factor: 2,
-    initial_zoom: 2
-  });
-
-  // Redimensionner la frise après l'initialisation avec un délai plus long
-  setTimeout(() => {
-    window.dispatchEvent(new Event('resize'));
-  }, 500);
-}
-
-// Gestion de la modale de la frise
-const friseChronoModal = document.getElementById('friseChronoModal');
-friseChronoModal.addEventListener('shown.bs.modal', function () {
-  initializeTimeline();
 });
 
-friseChronoModal.addEventListener('hidden.bs.modal', function () {
-  if (timeline) {
-    timeline = null; // Réinitialiser pour éviter les fuites de mémoire
-    document.getElementById('timeline-embed').innerHTML = '';
-  }
-});
+// ==================== GÉNÉRATION FICHIER TEXTE ====================
+function generateTextFile() {
+  const text = document.getElementById('commentText').value.trim();
+  if (!text) return alert('Veuillez écrire un commentaire');
 
-// ==================== CARTE INTERACTIVE ====================
-let map = null;
-let geojsonLayer = null;
-const carteMondeModal = document.getElementById('carteMondeModal');
+  const blob = new Blob([text], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'commentaire.txt';
+  link.click();
+}
+
+// ==================== INITIALISATION ====================
+document.addEventListener("DOMContentLoaded", () => {
+  Object.keys(PAGES).forEach(displayWordsForPage);
+
+  const savedVideoID = localStorage.getItem('youtubeVideoID');
+  if (savedVideoID) {
+    document.getElementById('youtubePlayer').src = `https://www.youtube.com/embed/${savedVideoID}`;
+    document.getElementById('videoUrl').value = `https://youtu.be/${savedVideoID}`;
+  }
+
+  setupAudioRecorder();
+  setupAudioPlayer();
+
+  document.getElementById('downloadButton').onclick = () => {
+    if (!window.audioBlob) return alert('Aucun enregistrement disponible');
+    const fileName = document.getElementById('fileName').value || 'enregistrement';
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(window.audioBlob);
+    link.download = `${fileName}.wav`;
+    link.click();
+  };
+});
 
 // Stocker les données des pays
 let countryData = {};
@@ -2803,6 +3203,11 @@ const languageTranslations = {
   'Sami': 'Sami'
 };
 
+var map = null;
+var geojsonLayer = null;
+var carteMondeModal = document.getElementById('carteMondeModal');
+
+// Charger les données des pays depuis countries.json
 async function loadCountryData() {
   try {
     const response = await fetch('data/countries.json');
@@ -2819,6 +3224,7 @@ async function loadCountryData() {
     console.log('countryData chargé:', countryData);
   } catch (error) {
     console.error('Erreur lors du chargement de countries.json:', error);
+    // Utiliser les données de secours si countries.json échoue
     Object.assign(countryData, fallbackCountryData);
     console.log('Données de secours appliquées:', countryData);
   }
@@ -2832,10 +3238,11 @@ carteMondeModal.addEventListener('shown.bs.modal', async function () {
       maxZoom: 18
     }).addTo(map);
 
+    // Charger countryData avant le GeoJSON
     await loadCountryData();
 
     try {
-      const response = await fetch('data/ne_110m_admin_0_countries.geojson');
+      const response = await fetch('data/ne_110m_admin_0_countries.geojson'); // Utiliser le fichier local
       if (!response.ok) {
         throw new Error(`Erreur HTTP ${response.status}: Impossible de charger le GeoJSON`);
       }
@@ -2849,6 +3256,7 @@ carteMondeModal.addEventListener('shown.bs.modal', async function () {
         },
         onEachFeature: function (feature, layer) {
           let isoCode = feature.properties.ISO_A2 || 'N/A';
+          // Correction spécifique pour la France et la Norvège
           if (feature.properties.NAME_FR === 'France' || feature.properties.ADMIN === 'France') {
             isoCode = 'FR';
           } else if (feature.properties.NAME_FR === 'Norvège' || feature.properties.ADMIN === 'Norway') {
@@ -2856,7 +3264,7 @@ carteMondeModal.addEventListener('shown.bs.modal', async function () {
           } else {
             isoCode = isoCorrections[isoCode] || isoCode;
           }
-          console.log(`Pays: ${feature.properties.NAME_FR || feature.properties.ADMIN}, ISO_A2: ${feature.properties.ISO_A2}, Corrigé: ${isoCode}`);
+          console.log(`Pays: ${feature.properties.NAME_FR || feature.properties.ADMIN}, ISO_A2: ${feature.properties.ISO_A2}, Corrigé: ${isoCode}`); // Débogage
           const countryInfo = countryData[isoCode] || fallbackCountryData[isoCode] || {};
           const flagUrl = countryInfo.flag || 'N/A';
           let languages = countryInfo.languages || 'N/A';
@@ -2923,129 +3331,21 @@ carteMondeModal.addEventListener('hidden.bs.modal', function () {
   }
 });
 
-// ==================== GÉNÉRATION FICHIER TEXTE ====================
-function generateTextFile() {
-  const text = document.getElementById('commentText').value.trim();
-  if (!text) return alert('Veuillez écrire un commentaire');
-
-  const blob = new Blob([text], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'commentaire.txt';
-  link.click();
-}
-
-// ==================== INITIALISATION ====================
-document.addEventListener("DOMContentLoaded", async () => {
-  const currentPage = getPageName();
-  console.log('Page actuelle:', currentPage);
-  if (currentPage === '' || currentPage === 'index') {
-    console.log('Initialisation de setupAudioPlayer sur la page principale');
-    await setupAudioPlayer();
-
-    const commentText = document.getElementById('commentText');
-    if (commentText) {
-      const savedDraft = localStorage.getItem('commentDraft');
-      if (savedDraft) {
-        commentText.value = savedDraft;
-      }
-      commentText.addEventListener('input', () => {
-        localStorage.setItem('commentDraft', commentText.value);
-      });
-      const generateTextButton = document.getElementById('generateTextButton');
-      if (generateTextButton) {
-        generateTextButton.addEventListener('click', () => {
-          if (commentText.value.trim()) {
-            localStorage.removeItem('commentDraft');
-            commentText.value = '';
-          }
-        });
-      }
-    } else {
-      console.warn('Champ de commentaire avec id="commentText" non trouvé.');
-    }
-  }
-
-  Object.keys(PAGES).forEach(displayWordsForPage);
-
-  const savedVideoID = localStorage.getItem('youtubeVideoID');
-  if (savedVideoID) {
-    document.getElementById('youtubePlayer').src = `https://www.youtube.com/embed/${savedVideoID}`;
-    document.getElementById('videoUrl').value = `https://youtu.be/${savedVideoID}`;
-  }
-
-  setupAudioRecorder();
-
-  document.getElementById('downloadButton').onclick = async () => {
-    if (!window.audioBlob) return alert('Aucun enregistrement disponible');
-
-    const fileName = document.getElementById('fileName').value || 'enregistrement';
-    
-    // Convertir WAV en MP3
-    try {
-      const arrayBuffer = await window.audioBlob.arrayBuffer();
-      const audioContext = new AudioContext();
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-      const channels = audioBuffer.numberOfChannels;
-      const sampleRate = audioBuffer.sampleRate;
-      const length = audioBuffer.length;
-      const channelData = [];
-      for (let i = 0; i < channels; i++) {
-        channelData.push(audioBuffer.getChannelData(i));
-      }
-
-      const mp3Encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128);
-      const mp3Data = [];
-      const sampleBlockSize = 1152;
-
-      for (let i = 0; i < length; i += sampleBlockSize) {
-        const left = channelData[0].slice(i, i + sampleBlockSize);
-        const right = channels > 1 ? channelData[1].slice(i, i + sampleBlockSize) : left;
-
-        const leftInt = Int16Array.from(left, x => x * 32767);
-        const rightInt = Int16Array.from(right, x => x * 32767);
-
-        const mp3buf = mp3Encoder.encodeBuffer(leftInt, rightInt);
-        if (mp3buf.length > 0) {
-          mp3Data.push(mp3buf);
-        }
-      }
-
-      const mp3buf = mp3Encoder.flush();
-      if (mp3buf.length > 0) {
-        mp3Data.push(mp3buf);
-      }
-
-      const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(mp3Blob);
-      link.download = `${fileName}.mp3`;
-      link.click();
-      console.log('Fichier MP3 téléchargé:', `${fileName}.mp3`);
-    } catch (error) {
-      console.error('Erreur lors de la conversion en MP3:', error);
-      alert('Erreur lors de la conversion en MP3. Téléchargement en WAV à la place.');
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(window.audioBlob);
-      link.download = `${fileName}.wav`;
-      link.click();
-    }
-  };
-});
-
 // Fonction pour effacer toutes les sélections et réinitialiser les boutons
 function clearSelection() {
   if (confirm("Voulez-vous vraiment effacer toutes les sélections ?")) {
+    // Effacer toutes les clés de localStorage pour les mots sélectionnés
     Object.keys(PAGES).forEach(page => {
       saveToLocalStorage(`selectedWords_${page}`, []);
     });
     saveToLocalStorage('selectedWords', []);
 
+    // Mettre à jour l'affichage des mots pour toutes les pages
     Object.keys(PAGES).forEach(page => {
       displayWordsForPage(page);
     });
 
+    // Déclencher un événement de stockage pour réinitialiser les boutons sur les pages annexes
     localStorage.setItem('clearSelectionEvent', Date.now().toString());
 
     console.log('Toutes les sélections ont été effacées');

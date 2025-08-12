@@ -789,6 +789,24 @@ const wordDefinitions =
         "langue basque": {
           "definition": "Langue isolée, sans lien connu avec d'autres familles, parlée au Pays basque entre la France et l'Espagne."
         },
+        "langues polynésiennes": {
+    "definition": "Groupe de langues austronésiennes parlées dans le triangle polynésien (Hawaï, Île de Pâques, Nouvelle-Zélande), incluant le maori, le tahitien et le samoan, caractérisées par une structure phonologique simple et une forte intercompréhension."
+  },
+  "langues mélanésiennes": {
+    "definition": "Langues austronésiennes et papoues parlées en Mélanésie (Nouvelle-Guinée, Fidji, Vanuatu, etc.), très diverses, comme le tok pisin ou le bislama, souvent influencées par des contacts coloniaux et des langues pidgins."
+  },
+  "langues quechua": {
+    "definition": "Famille de langues indigènes d’Amérique du Sud, principalement parlées dans les Andes (Pérou, Bolivie, Équateur), avec le quechua cuzqueño comme variante notable, issues de l’héritage inca et encore parlées par des millions de locuteurs."
+  },
+  "langues mayas": {
+    "definition": "Groupe de langues indigènes mésoaméricaines parlées au Mexique et en Amérique centrale (Guatemala, Belize), incluant le yucatèque, le k’iche’ ou le tzotzil, avec une riche tradition écrite remontant à la civilisation maya."
+  },
+  "langues tupi-guarani": {
+    "definition": "Famille de langues indigènes d’Amérique du Sud, principalement au Brésil, au Paraguay et en Bolivie, incluant le guarani, langue officielle du Paraguay, et le tupi, autrefois dominant dans la région amazonienne."
+  },
+  "esperanto": {
+    "definition": "Langue construite créée en 1887 par L.L. Zamenhof pour faciliter la communication internationale, avec une grammaire régulière et un vocabulaire dérivé de langues européennes, parlée par une communauté mondiale estimée à plusieurs milliers de locuteurs."
+  },
         "musique occidentale de tradition écrite": {
             "definition": "Style musical savant européen caractérisé par son système de notation et son évolution historique à travers les périodes stylistiques majeures."
         },
@@ -1776,7 +1794,55 @@ const wordDefinitions =
     },
     "transcription": {
         "definition": "Adaptation d'une œuvre musicale pour un instrument ou un ensemble différent."
-    }
+    },
+    "développement thématique": {
+    "definition": "Procédé de composition musicale où un thème principal est transformé, varié ou développé à travers des techniques comme la modulation, l’ornementation ou la fragmentation, pour structurer une œuvre."
+  },
+  "mélodisation": {
+    "definition": "Processus de création ou d’accentuation d’une ligne mélodique claire et expressive, souvent mise en avant comme élément principal d’une composition musicale."
+  },
+  "hétérophonique": {
+    "definition": "Une même mélodie est exécutée simultanément par plusieurs voix ou instruments avec des variations subtiles dans l’ornementation, le rythme ou la hauteur, créant une richesse texturale sans lignes mélodiques indépendantes, comme dans certaines musiques traditionnelles asiatiques ou africaines."
+  },
+  "homophonique": {
+    "definition": "Une voix mélodique principale est soutenue par un accompagnement harmonique, créant une structure verticale dominée par l’harmonie, comme dans les chorals de la période classique."
+  },
+  "polyphonique": {
+    "definition": "Interaction de plusieurs voix mélodiques indépendantes, entrelacées selon des principes de contrepoint, où chaque voix conserve une autonomie rythmique et mélodique, comme dans les fugues ou les motets de la Renaissance."
+  },
+  "monodique": {
+    "definition": "Une seule ligne mélodique, sans accompagnement harmonique ni contrepoint, mettant l’accent sur la pureté de la mélodie, comme dans le chant grégorien ou les monodies profanes de la musique baroque naissante."
+  },
+  "antiphonique": {
+    "definition": "Procédé où deux groupes ou voix alternent ou se répondent dans une composition, souvent utilisé dans les chants liturgiques ou les œuvres chorales."
+  },
+  "sérialisme": {
+    "definition": "Technique de composition du XXe siècle où des séries ordonnées de hauteurs, durées, dynamiques ou timbres sont utilisées pour structurer rigoureusement une œuvre, comme dans les travaux de Schoenberg ou Boulez."
+  },
+  "spectralisme": {
+    "definition": "Courant musical moderne basé sur l’analyse des spectres sonores (fréquences, timbres), utilisant des outils informatiques pour créer des textures et harmonies dérivées des propriétés acoustiques, comme dans les œuvres de Grisey ou Murail."
+  },
+  "minimalisme": {
+    "definition": "Style musical caractérisé par la répétition de motifs simples, des changements graduels et une économie de moyens, souvent hypnotique, comme dans les œuvres de Reich, Glass ou Adams."
+  },
+  "thème": {
+    "definition": "Idée musicale principale, souvent une mélodie ou un motif, servant de base à une composition ou à son développement, comme dans une sonate ou une symphonie."
+  },
+  "période": {
+    "definition": "Structure musicale formée de deux phrases complémentaires (souvent antécédent et conséquent), créant une unité mélodique et harmonique cohérente."
+  },
+  "inversion": {
+    "definition": "Technique où une mélodie ou un motif est transformé en renversant les intervalles (les montées deviennent des descentes et vice versa), utilisée dans le contrepoint ou le sérialisme."
+  },
+  "rétrogradation": {
+    "definition": "Procédé où une mélodie ou une série est jouée à l’envers (du dernier au premier élément), souvent utilisé dans le sérialisme ou les fugues."
+  },
+  "augmentation": {
+    "definition": "Technique où les durées des notes d’un motif ou d’une mélodie sont allongées proportionnellement, ralentissant le rythme tout en conservant la structure mélodique."
+  },
+  "diminution": {
+    "definition": "Technique où les durées des notes d’un motif ou d’une mélodie sont raccourcies proportionnellement, accélérant le rythme tout en préservant la structure mélodique."
+  }
 };
 
 // Fonction pour gérer la sélection des mots
@@ -1866,7 +1932,6 @@ words.forEach(word => {
             const wordData = wordDefinitions[word.textContent] || { definition: "Aucune définition disponible." };
             definitionTitle.textContent = word.textContent;
             definitionText.innerHTML = wordData.definition.replace(/\n/g, '<br>');
-
             // Gérer l'image
             definitionImageContainer.style.display = wordData.image ? 'block' : 'none';
             if (wordData.image) {
@@ -1875,7 +1940,6 @@ words.forEach(word => {
             } else {
                 definitionImage.style.display = 'none';
             }
-
             // Gérer l'audio
             definitionAudioContainer.style.display = wordData.audio ? 'block' : 'none';
             if (wordData.audio) {
@@ -1885,7 +1949,6 @@ words.forEach(word => {
             } else {
                 definitionAudio.style.display = 'none';
             }
-
             // Gérer la vidéo
             definitionVideoContainer.style.display = wordData.video ? 'block' : 'none';
             if (wordData.video) {
@@ -1895,42 +1958,46 @@ words.forEach(word => {
             } else {
                 definitionVideo.style.display = 'none';
             }
-
+            // Afficher le panneau
             definitionContainer.style.display = 'block';
         } else {
-            definitionContainer.style.display = 'none';
+            // Masquer le panneau si aucun mot n'est sélectionné
+            const anySelected = document.querySelectorAll('.selected').length > 0;
+            if (!anySelected) {
+                definitionContainer.style.display = 'none';
+            }
         }
         // Positionner le conteneur de définitions
-const isMobile = window.matchMedia("(max-width: 767px)").matches;
-// Toujours retirer le conteneur du DOM avant de le repositionner
-if (definitionContainer.parentElement) {
-    definitionContainer.parentElement.removeChild(definitionContainer);
-}
-if (isMobile) {
-    definitionContainer.style.position = 'relative';
-    definitionContainer.style.left = '';
-    definitionContainer.style.top = '';
-    definitionContainer.style.width = '100%';
-    definitionContainer.style.maxWidth = '';
-    word.insertAdjacentElement('afterend', definitionContainer); // Insérer directement après le mot
-} else {
-    definitionContainer.style.position = 'fixed';
-    definitionContainer.style.right = '20px';
-    definitionContainer.style.top = '20px';
-    definitionContainer.style.width = '300px';
-    definitionContainer.style.maxWidth = '600px';
-    document.body.appendChild(definitionContainer); // Remettre à la fin du body pour laptop
-}
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (definitionContainer.parentElement) {
+            definitionContainer.parentElement.removeChild(definitionContainer);
+        }
+        if (isMobile) {
+            definitionContainer.style.position = 'relative';
+            definitionContainer.style.left = '';
+            definitionContainer.style.top = '';
+            definitionContainer.style.width = '100%';
+            definitionContainer.style.maxWidth = '';
+            word.insertAdjacentElement('afterend', definitionContainer);
+        } else {
+            definitionContainer.style.position = 'fixed';
+            definitionContainer.style.right = '20px';
+            definitionContainer.style.top = '20px';
+            definitionContainer.style.width = '300px';
+            definitionContainer.style.maxWidth = '600px';
+            document.body.appendChild(definitionContainer);
+        }
     });
 });
 
 // NOUVEAU: Écouter les événements de réinitialisation
 window.addEventListener('storage', (event) => {
-  if (event.key === 'clearSelectionEvent' || event.key === `selectedWords_${getPageName()}`) {
-    console.log('Événement de réinitialisation détecté:', event.key);
-    restoreSelectedWords();
-    definitionContainer.style.display = 'none'; // Cacher le conteneur de définition
-  }
+    if (event.key === 'clearSelectionEvent' || event.key === `selectedWords_${getPageName()}`) {
+        console.log('Événement de réinitialisation détecté:', event.key);
+        restoreSelectedWords();
+        // Masquer le panneau si aucune sélection
+        definitionContainer.style.display = 'none';
+    }
 });
 
 function clearSelection() {
@@ -1942,6 +2009,7 @@ function clearSelection() {
         const pageWords = Array.from(words).map(el => el.textContent);
         selectedWords = selectedWords.filter(word => !pageWords.includes(word));
         localStorage.setItem('selectedWords', JSON.stringify(selectedWords));
+        // Masquer le panneau
         definitionContainer.style.display = 'none';
         console.log(`Sélections annulées pour ${pageName}`);
     }
@@ -1963,199 +2031,245 @@ function goToHomePage() {
 
 // Fonction pour ouvrir IndexedDB
 function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open('AudioDB', 1);
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      db.createObjectStore('audioStore', { keyPath: 'id' });
-    };
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = (event) => reject(event.target.error);
-  });
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('AudioDB', 1);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            db.createObjectStore('audioStore', { keyPath: 'id' });
+        };
+        request.onsuccess = (event) => resolve(event.target.result);
+        request.onerror = (event) => reject(event.target.error);
+    });
 }
 
 // Fonction pour charger l'audio depuis IndexedDB
 function loadAudioFromDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open('AudioDB');
-    request.onerror = () => reject('Erreur lors de l’ouverture d’IndexedDB');
-    request.onsuccess = event => {
-      const db = event.target.result;
-      const transaction = db.transaction(['audioStore'], 'readonly');
-      const store = transaction.objectStore('audioStore');
-      const getAudio = store.get('userAudio');
-      getAudio.onsuccess = () => {
-        console.log('Résultat de store.get(userAudio):', getAudio.result);
-        resolve(getAudio.result);
-      };
-      getAudio.onerror = () => reject('Erreur lors du chargement de userAudio');
-    };
-  });
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('AudioDB');
+        request.onerror = () => reject('Erreur lors de l’ouverture d’IndexedDB');
+        request.onsuccess = event => {
+            const db = event.target.result;
+            const transaction = db.transaction(['audioStore'], 'readonly');
+            const store = transaction.objectStore('audioStore');
+            const getAudio = store.get('userAudio');
+            getAudio.onsuccess = () => {
+                console.log('Résultat de store.get(userAudio):', getAudio.result);
+                resolve(getAudio.result);
+            };
+            getAudio.onerror = () => reject('Erreur lors du chargement de userAudio');
+        };
+    });
 }
 
 // Fonction pour charger l'état audio depuis IndexedDB
 async function loadAudioStateFromDB() {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readonly');
-    const store = transaction.objectStore('audioStore');
-    const request = store.get('audioState');
-    return new Promise((resolve, reject) => {
-      request.onsuccess = (event) => resolve(event.target.result);
-      request.onerror = (event) => reject(event.target.error);
-    });
-  } catch (error) {
-    console.error('Erreur lors du chargement de l\'état depuis IndexedDB:', error);
-    return null;
-  }
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['audioStore'], 'readonly');
+        const store = transaction.objectStore('audioStore');
+        const request = store.get('audioState');
+        return new Promise((resolve, reject) => {
+            request.onsuccess = (event) => resolve(event.target.result);
+            request.onerror = (event) => reject(event.target.error);
+        });
+    } catch (error) {
+        console.error('Erreur lors du chargement de l\'état depuis IndexedDB:', error);
+        return null;
+    }
 }
 
 // Fonction pour sauvegarder l'état audio dans IndexedDB
 async function saveAudioStateToDB(state) {
-  try {
-    const db = await openDB();
-    const transaction = db.transaction(['audioStore'], 'readwrite');
-    const store = transaction.objectStore('audioStore');
-    await store.put({ id: 'audioState', ...state });
-    console.log('État audio sauvegardé dans IndexedDB:', state);
-  } catch (error) {
-    console.error('Erreur lors de la sauvegarde de l\'état dans IndexedDB:', error);
-  }
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(['audioStore'], 'readwrite');
+        const store = transaction.objectStore('audioStore');
+        await store.put({ id: 'audioState', ...state });
+        console.log('État audio sauvegardé dans IndexedDB:', state);
+    } catch (error) {
+        console.error('Erreur lors de la sauvegarde de l\'état dans IndexedDB:', error);
+    }
 }
 
 // Fonction utilitaire pour formater le temps
 function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
 function setupMiniPlayer() {
-  const miniPlayer = document.getElementById('miniPlayer');
-  const miniPlayPause = document.getElementById('miniPlayPause');
-  const miniSeekBar = document.getElementById('miniSeekBar');
-  const miniCurrentTime = document.getElementById('miniCurrentTime');
-  const miniDuration = document.getElementById('miniDuration');
-  const miniPlayerError = document.getElementById('miniPlayerError');
+    const miniPlayer = document.getElementById('miniPlayer');
+    const miniPlayPause = document.getElementById('miniPlayPause');
+    const miniSeekBar = document.getElementById('miniSeekBar');
+    const miniCurrentTime = document.getElementById('miniCurrentTime');
+    const miniDuration = document.getElementById('miniDuration');
+    const miniPlayerError = document.getElementById('miniPlayerError');
 
-  if (!miniPlayer || !miniPlayPause || !miniSeekBar || !miniCurrentTime || !miniDuration || !miniPlayerError) {
-    console.error('Éléments du mini-lecteur non trouvés dans le DOM:', {
-      miniPlayer: !!miniPlayer,
-      miniPlayPause: !!miniPlayPause,
-      miniSeekBar: !!miniSeekBar,
-      miniCurrentTime: !!miniCurrentTime,
-      miniDuration: !!miniDuration,
-      miniPlayerError: !!miniPlayerError
-    });
-    return;
-  }
-
-  let audio = null;
-
-  const updatePlayerState = (state) => {
-    if (!audio || !state) return;
-    audio.currentTime = state.time;
-    miniSeekBar.value = state.time;
-    miniCurrentTime.textContent = formatTime(state.time);
-    if (state.isPlaying && audio.paused) {
-      audio.play().catch(err => {
-        console.error('Erreur lecture mini-lecteur:', err);
-        miniPlayerError.textContent = 'Erreur : lecture bloquée. Cliquez sur play.';
-        miniPlayerError.classList.remove('d-none');
-      });
-      miniPlayPause.innerHTML = '<i class="bi bi-pause-fill"></i>';
-    } else if (!state.isPlaying && !audio.paused) {
-      audio.pause();
-      miniPlayPause.innerHTML = '<i class="bi bi-play-fill"></i>';
+    if (!miniPlayer || !miniPlayPause || !miniSeekBar || !miniCurrentTime || !miniDuration || !miniPlayerError) {
+        console.error('Éléments du mini-lecteur non trouvés dans le DOM:', {
+            miniPlayer: !!miniPlayer,
+            miniPlayPause: !!miniPlayPause,
+            miniSeekBar: !!miniSeekBar,
+            miniCurrentTime: !!miniCurrentTime,
+            miniDuration: !!miniDuration,
+            miniPlayerError: !!miniPlayerError
+        });
+        return;
     }
-  };
 
-  loadAudioFromDB().then(savedAudioData => {
-    console.log('Audio trouvé dans IndexedDB pour le mini-lecteur:', savedAudioData);
-    if (savedAudioData && savedAudioData.blob) {
-      try {
-        audio = new Audio();
-        audio.src = URL.createObjectURL(savedAudioData.blob);
-        console.log('URL audio créée:', audio.src);
+    let audio = null;
 
-        miniPlayer.classList.remove('d-none');
-        miniPlayerError.classList.add('d-none');
-        miniSeekBar.value = savedAudioData.time || 0;
-        miniCurrentTime.textContent = formatTime(savedAudioData.time || 0);
-
-        audio.addEventListener('loadedmetadata', () => {
-          console.log('Métadonnées chargées:', audio.duration);
-          miniSeekBar.max = audio.duration;
-          miniDuration.textContent = formatTime(audio.duration);
-        });
-
-        audio.addEventListener('timeupdate', () => {
-          miniSeekBar.value = audio.currentTime;
-          miniCurrentTime.textContent = formatTime(audio.currentTime);
-          const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
-          saveAudioStateToDB(state);
-          localStorage.setItem('audioState', JSON.stringify(state));
-        });
-
-        miniSeekBar.addEventListener('input', () => {
-          audio.currentTime = miniSeekBar.value;
-          const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
-          saveAudioStateToDB(state);
-          localStorage.setItem('audioState', JSON.stringify(state));
-        });
-
-        miniPlayPause.addEventListener('click', () => {
-          if (audio.paused) {
+    const updatePlayerState = (state) => {
+        if (!audio || !state) return;
+        audio.currentTime = state.time;
+        miniSeekBar.value = state.time;
+        miniCurrentTime.textContent = formatTime(state.time);
+        if (state.isPlaying && audio.paused) {
             audio.play().catch(err => {
-              console.error('Erreur lors de la lecture:', err);
-              miniPlayerError.textContent = 'Erreur : lecture bloquée. Cliquez à nouveau.';
-              miniPlayerError.classList.remove('d-none');
+                console.error('Erreur lecture mini-lecteur:', err);
+                miniPlayerError.textContent = 'Erreur : lecture bloquée. Cliquez sur play.';
+                miniPlayerError.classList.remove('d-none');
             });
             miniPlayPause.innerHTML = '<i class="bi bi-pause-fill"></i>';
-          } else {
+        } else if (!state.isPlaying && !audio.paused) {
             audio.pause();
             miniPlayPause.innerHTML = '<i class="bi bi-play-fill"></i>';
-          }
-          const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
-          saveAudioStateToDB(state);
-          localStorage.setItem('audioState', JSON.stringify(state));
-        });
+        }
+    };
 
-        // Charger l'état initial
-        loadAudioStateFromDB().then(state => {
-          if (state) {
-            updatePlayerState(state);
-          }
-        });
+    loadAudioFromDB().then(savedAudioData => {
+        console.log('Audio trouvé dans IndexedDB pour le mini-lecteur:', savedAudioData);
+        if (savedAudioData && savedAudioData.blob) {
+            try {
+                audio = new Audio();
+                audio.src = URL.createObjectURL(savedAudioData.blob);
+                console.log('URL audio créée:', audio.src);
 
-        // Écouter les changements d'état via localStorage
-        window.addEventListener('storage', (event) => {
-          if (event.key === 'audioState') {
-            const state = JSON.parse(event.newValue);
-            updatePlayerState(state);
-          }
-        });
+                miniPlayer.classList.remove('d-none');
+                miniPlayerError.classList.add('d-none');
+                miniSeekBar.value = savedAudioData.time || 0;
+                miniCurrentTime.textContent = formatTime(savedAudioData.time || 0);
 
-      } catch (err) {
-        console.error('Erreur lors de la configuration du mini-lecteur:', err);
+                audio.addEventListener('loadedmetadata', () => {
+                    console.log('Métadonnées chargées:', audio.duration);
+                    miniSeekBar.max = audio.duration;
+                    miniDuration.textContent = formatTime(audio.duration);
+                });
+
+                audio.addEventListener('timeupdate', () => {
+                    miniSeekBar.value = audio.currentTime;
+                    miniCurrentTime.textContent = formatTime(audio.currentTime);
+                    const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
+                    saveAudioStateToDB(state);
+                    localStorage.setItem('audioState', JSON.stringify(state));
+                });
+
+                miniSeekBar.addEventListener('input', () => {
+                    audio.currentTime = miniSeekBar.value;
+                    const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
+                    saveAudioStateToDB(state);
+                    localStorage.setItem('audioState', JSON.stringify(state));
+                });
+
+                miniPlayPause.addEventListener('click', () => {
+                    if (audio.paused) {
+                        audio.play().catch(err => {
+                            console.error('Erreur lors de la lecture:', err);
+                            miniPlayerError.textContent = 'Erreur : lecture bloquée. Cliquez à nouveau.';
+                            miniPlayerError.classList.remove('d-none');
+                        });
+                        miniPlayPause.innerHTML = '<i class="bi bi-pause-fill"></i>';
+                    } else {
+                        audio.pause();
+                        miniPlayPause.innerHTML = '<i class="bi bi-play-fill"></i>';
+                    }
+                    const state = { time: audio.currentTime, isPlaying: !audio.paused, duration: audio.duration };
+                    saveAudioStateToDB(state);
+                    localStorage.setItem('audioState', JSON.stringify(state));
+                });
+
+                // Charger l'état initial
+                loadAudioStateFromDB().then(state => {
+                    if (state) {
+                        updatePlayerState(state);
+                    }
+                });
+
+                // Écouter les changements d'état via localStorage
+                window.addEventListener('storage', (event) => {
+                    if (event.key === 'audioState') {
+                        const state = JSON.parse(event.newValue);
+                        updatePlayerState(state);
+                    }
+                });
+
+            } catch (err) {
+                console.error('Erreur lors de la configuration du mini-lecteur:', err);
+                miniPlayer.classList.add('d-none');
+                miniPlayerError.textContent = 'Erreur : impossible de configurer l’audio.';
+                miniPlayerError.classList.remove('d-none');
+            }
+        } else {
+            console.log('Aucun audio disponible dans IndexedDB pour le mini-lecteur');
+            miniPlayer.classList.add('d-none');
+            miniPlayerError.classList.remove('d-none');
+        }
+    }).catch(err => {
+        console.error('Erreur lors du chargement depuis IndexedDB:', err);
         miniPlayer.classList.add('d-none');
-        miniPlayerError.textContent = 'Erreur : impossible de configurer l’audio.';
         miniPlayerError.classList.remove('d-none');
-      }
-    } else {
-      console.log('Aucun audio disponible dans IndexedDB pour le mini-lecteur');
-      miniPlayer.classList.add('d-none');
-      miniPlayerError.classList.remove('d-none');
-    }
-  }).catch(err => {
-    console.error('Erreur lors du chargement depuis IndexedDB:', err);
-    miniPlayer.classList.add('d-none');
-    miniPlayerError.classList.remove('d-none');
-  });
+    });
 }
 
 // Appeler la fonction pour restaurer les mots au chargement
 document.addEventListener('DOMContentLoaded', () => {
     restoreSelectedWords();
     setupMiniPlayer();
+    // Initialiser le panneau de définition avec le message par défaut
+    definitionTitle.textContent = "Définition";
+    definitionText.innerHTML = "Sélectionnez un mot pour voir la définition.";
+    definitionImageContainer.style.display = 'none';
+    definitionAudioContainer.style.display = 'none';
+    definitionVideoContainer.style.display = 'none';
+    // Positionner le panneau au chargement
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+    if (definitionContainer.parentElement) {
+        definitionContainer.parentElement.removeChild(definitionContainer);
+    }
+    if (isMobile) {
+        definitionContainer.style.position = 'relative';
+        definitionContainer.style.left = '';
+        definitionContainer.style.top = '';
+        definitionContainer.style.width = '100%';
+        definitionContainer.style.maxWidth = '';
+        if (isPortrait) {
+            const h1 = document.querySelector('h1');
+            if (h1) {
+                h1.insertAdjacentElement('afterend', definitionContainer);
+            } else {
+                const header = document.querySelector('header');
+                if (header) {
+                    header.insertAdjacentElement('afterend', definitionContainer);
+                } else {
+                    document.body.appendChild(definitionContainer);
+                }
+            }
+        } else {
+            const header = document.querySelector('header');
+            if (header) {
+                header.insertAdjacentElement('afterend', definitionContainer);
+            } else {
+                document.body.appendChild(definitionContainer);
+            }
+        }
+    } else {
+        definitionContainer.style.position = 'fixed';
+        definitionContainer.style.right = '20px';
+        definitionContainer.style.top = '20px';
+        definitionContainer.style.width = '300px';
+        definitionContainer.style.maxWidth = '600px';
+        document.body.appendChild(definitionContainer);
+    }
 });
