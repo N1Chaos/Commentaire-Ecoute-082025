@@ -2098,7 +2098,15 @@ async function setupAudioPlayer() {
 
   // Initialisation de Web Audio API
   const audioContext = new AudioContext();
-  const source = audioContext.createMediaElementSource(player);
+  let source;
+  try {
+    source = audioContext.createMediaElementSource(player);
+  } catch (error) {
+    console.error('Erreur lors de la création de la source audio:', error);
+    alert('Erreur lors de l\'initialisation de l\'audio. Veuillez réimporter le fichier.');
+    fileNameDisplay.textContent = 'Erreur lors du chargement';
+    return;
+  }
   const analyserLeft = audioContext.createAnalyser();
   const analyserRight = audioContext.createAnalyser();
   analyserLeft.fftSize = 2048;
@@ -2135,7 +2143,14 @@ async function setupAudioPlayer() {
   let isMono = false;
   async function checkChannels() {
     try {
+      if (!player.src) {
+        console.warn('Aucun fichier audio chargé pour vérifier les canaux');
+        return;
+      }
       const response = await fetch(player.src);
+      if (!response.ok) {
+        throw new Error('Échec du chargement du fichier audio pour la vérification des canaux');
+      }
       const arrayBuffer = await response.arrayBuffer();
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       const channels = audioBuffer.numberOfChannels;
@@ -2185,6 +2200,7 @@ async function setupAudioPlayer() {
   spectrumCanvas.width = spectrumCanvas.offsetWidth;
   spectrumCanvas.height = 100;
 
+  // Réacquérir les contextes des canvas
   const vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
   const vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
   const waveformLeftCtx = waveformLeftCanvas.getContext('2d');
@@ -2409,15 +2425,25 @@ async function setupAudioPlayer() {
     });
   }
 
-  // Animation combinée
+  // Gestion de l'animation avec annulation
+  let animationId = null;
   function animate() {
     if (visualizations.classList.contains('active')) {
       drawVUMeters();
       drawWaveform();
     }
     drawSpectrum();
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
   }
+
+  // Arrêter l'animation lorsque la page est déchargée
+  window.addEventListener('beforeunload', () => {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+      console.log('Animation arrêtée avant déchargement de la page');
+    }
+  });
 
   // Contrôle de la balance stéréo
   balanceControl.addEventListener('input', () => {
@@ -2482,7 +2508,9 @@ async function setupAudioPlayer() {
   if (savedAudioData && savedAudioData.blob) {
     try {
       const audioUrl = URL.createObjectURL(savedAudioData.blob);
+      console.log('URL de l\'audio créé:', audioUrl);
       player.src = audioUrl;
+      player.load(); // Forcer le rechargement de la source
       fileNameDisplay.textContent = savedAudioData.fileName 
         ? `Fichier chargé : ${savedAudioData.fileName}` 
         : 'Aucun nom de fichier disponible';
@@ -2511,17 +2539,28 @@ async function setupAudioPlayer() {
       eqMid.value = savedEqMid;
       eqHigh.value = savedEqHigh;
 
-      player.addEventListener('canplaythrough', () => {
+      player.addEventListener('canplaythrough', async () => {
+        console.log('Événement canplaythrough déclenché');
         player.currentTime = savedTime;
         console.log('Audio prêt, minutage appliqué:', player.currentTime);
-        checkChannels();
+        await checkChannels();
         if (isPlaying) {
-          player.play().catch(err => {
+          try {
+            await audioContext.resume();
+            await player.play();
+            console.log('Lecture automatique démarrée');
+            if (!animationId) {
+              animate();
+              console.log('Animation démarrée après lecture automatique');
+            }
+          } catch (err) {
             console.error('Erreur lors de la lecture automatique:', err);
-            alert('Erreur lors de la lecture automatique. Cliquez sur play pour continuer.');
-          });
+            fileNameDisplay.textContent = 'Erreur: Cliquez sur play pour démarrer';
+          }
+        } else if (!animationId) {
+          animate();
+          console.log('Animation démarrée sans lecture automatique');
         }
-        animate();
       }, { once: true });
 
       player.addEventListener('error', (e) => {
@@ -2539,11 +2578,33 @@ async function setupAudioPlayer() {
     fileNameDisplay.textContent = 'Aucun fichier chargé';
   }
 
+  // Gestion explicite du bouton play (si présent dans le DOM)
+  const playButton = document.querySelector('#playButton');
+  if (playButton) {
+    playButton.addEventListener('click', async () => {
+      try {
+        await audioContext.resume();
+        await player.play();
+        console.log('Lecture démarrée via le bouton play');
+        if (!animationId) {
+          animate();
+          console.log('Animation démarrée via le bouton play');
+        }
+      } catch (err) {
+        console.error('Erreur lors de la lecture via le bouton play:', err);
+        alert('Erreur lors de la lecture. Vérifiez le fichier audio.');
+      }
+    });
+  }
+
   player.addEventListener('timeupdate', updateAudioState);
-  player.addEventListener('play', () => {
-    audioContext.resume();
+  player.addEventListener('play', async () => {
+    await audioContext.resume();
     updateAudioState();
-    animate();
+    if (!animationId) {
+      animate();
+      console.log('Animation démarrée lors de la lecture');
+    }
   });
   player.addEventListener('pause', updateAudioState);
   player.addEventListener('ended', async () => {
@@ -2584,11 +2645,14 @@ async function setupAudioPlayer() {
         player.load();
         await saveAudioToDB(file, 0, file.name);
         console.log('Nouveau fichier audio sauvegardé dans IndexedDB');
-        player.addEventListener('canplaythrough', () => {
+        player.addEventListener('canplaythrough', async () => {
           player.currentTime = 0;
           updateAudioState();
-          checkChannels();
-          animate();
+          await checkChannels();
+          if (!animationId) {
+            animate();
+            console.log('Animation démarrée après chargement de nouveau fichier');
+          }
         }, { once: true });
       } catch (error) {
         console.error('Erreur lors du chargement du nouveau fichier:', error);
