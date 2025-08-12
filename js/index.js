@@ -2172,11 +2172,12 @@ async function setupAudioPlayer() {
 
   // Gestion du bouton Contrôles
   const savedAudioState = await loadAudioStateFromDB();
-  const controlsVisible = savedAudioState?.controlsVisible || false;
-  console.log('État initial des contrôles et visualisations:', controlsVisible);
-  audioControls.classList.toggle('active', controlsVisible);
-  visualizations.classList.toggle('active', controlsVisible);
-  toggleControls.textContent = controlsVisible ? 'Masquer les contrôles' : 'Contrôles';
+  console.log('Données récupérées de IndexedDB:', savedAudioState);
+  // Forcer les contrôles et visualisations à être masqués au chargement
+  audioControls.classList.remove('active');
+  visualizations.classList.remove('active');
+  toggleControls.textContent = 'Contrôles';
+  console.log('État initial des contrôles et visualisations: masqués');
 
   toggleControls.addEventListener('click', () => {
     console.log('Bouton Contrôles cliqué');
@@ -2547,7 +2548,7 @@ async function setupAudioPlayer() {
 
   // Recharger l'audio sauvegardé
   const savedAudioData = await loadAudioFromDB();
-  console.log('Données récupérées de IndexedDB:', savedAudioData);
+  console.log('Données audio récupérées de IndexedDB:', savedAudioData);
 
   if (savedAudioData && savedAudioData.blob) {
     try {
