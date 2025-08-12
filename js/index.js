@@ -2103,8 +2103,7 @@ async function setupAudioPlayer() {
     source = audioContext.createMediaElementSource(player);
   } catch (error) {
     console.error('Erreur lors de la création de la source audio:', error);
-    alert('Erreur lors de l\'initialisation de l\'audio. Veuillez réimporter le fichier.');
-    fileNameDisplay.textContent = 'Erreur lors du chargement';
+    fileNameDisplay.textContent = 'Erreur: Veuillez réimporter le fichier';
     return;
   }
   const analyserLeft = audioContext.createAnalyser();
