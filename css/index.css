@@ -13,7 +13,7 @@
   --padding: 10px;
   --font-size: 16px;
   --heading-font: 'Poppins', sans-serif;
-  --body-font: 'Open Sans', sans-serif;
+  --body-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* Mise en page générale */
@@ -766,4 +766,14 @@ textarea {
     transition: none;
     transform: none;
   }
+}
+
+#vuMeterLeftCanvas, #vuMeterRightCanvas, #waveformLeftCanvas, #waveformRightCanvas {
+  width: 100%; /* or as per your layout */
+  height: 125px; /* Ensure CSS height matches or allows canvas height */
+}
+
+#spectrumCanvas {
+  width: 100%;
+  height: 100px;
 }

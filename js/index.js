@@ -2189,13 +2189,13 @@ async function setupAudioPlayer() {
     if (isVisible) {
       // Réinitialiser les dimensions et contextes des canvas lorsque les visualisations sont affichées
       vuMeterLeftCanvas.width = vuMeterLeftCanvas.offsetWidth;
-      vuMeterLeftCanvas.height = 80;
+      vuMeterLeftCanvas.height = 125;
       vuMeterRightCanvas.width = vuMeterRightCanvas.offsetWidth;
-      vuMeterRightCanvas.height = 80;
+      vuMeterRightCanvas.height = 125;
       waveformLeftCanvas.width = waveformLeftCanvas.offsetWidth;
-      waveformLeftCanvas.height = 80;
+      waveformLeftCanvas.height = 125;
       waveformRightCanvas.width = waveformRightCanvas.offsetWidth;
-      waveformRightCanvas.height = 80;
+      waveformRightCanvas.height = 125;
       // Réacquérir les contextes
       vuMeterLeftCtx = vuMeterLeftCanvas.getContext('2d');
       vuMeterRightCtx = vuMeterRightCanvas.getContext('2d');
@@ -2207,13 +2207,13 @@ async function setupAudioPlayer() {
 
   // Initialisation des canvas
   vuMeterLeftCanvas.width = vuMeterLeftCanvas.offsetWidth;
-  vuMeterLeftCanvas.height = 80;
+  vuMeterLeftCanvas.height = 125;
   vuMeterRightCanvas.width = vuMeterRightCanvas.offsetWidth;
-  vuMeterRightCanvas.height = 80;
+  vuMeterRightCanvas.height = 125;
   waveformLeftCanvas.width = waveformLeftCanvas.offsetWidth;
-  waveformLeftCanvas.height = 80;
+  waveformLeftCanvas.height = 125;
   waveformRightCanvas.width = waveformRightCanvas.offsetWidth;
-  waveformRightCanvas.height = 80;
+  waveformRightCanvas.height = 125;
   spectrumCanvas.width = spectrumCanvas.offsetWidth;
   spectrumCanvas.height = 100;
 
@@ -2249,8 +2249,8 @@ async function setupAudioPlayer() {
   function drawVUMeters() {
     try {
       const centerX = vuMeterLeftCanvas.width / 2;
-      const centerY = vuMeterLeftCanvas.height - 15;
-      const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 25);
+      const centerY = vuMeterLeftCanvas.height - 23.4375;
+      const radius = Math.min(vuMeterLeftCanvas.width / 2 - 10, vuMeterLeftCanvas.height - 39.0625);
       const startAngle = -Math.PI / 2;
       const endAngle = Math.PI / 2;
 
@@ -2269,7 +2269,7 @@ async function setupAudioPlayer() {
       vuMeterLeftCtx.lineWidth = 10;
       vuMeterLeftCtx.strokeStyle = '#e0e0e0';
       vuMeterLeftCtx.stroke();
-      vuMeterLeftCtx.fillStyle = 'var(--font-color)';
+      vuMeterLeftCtx.fillStyle = '#0000FF';
       vuMeterLeftCtx.font = '10px var(--body-font)';
       const levels = [-60, -50, -40, -30, -20, -10, 0];
       levels.forEach(level => {
@@ -2289,7 +2289,7 @@ async function setupAudioPlayer() {
       vuMeterLeftCtx.moveTo(centerX, centerY);
       vuMeterLeftCtx.lineTo(centerX + Math.cos(angleLeft) * radius, centerY + Math.sin(angleLeft) * radius);
       vuMeterLeftCtx.lineWidth = 2;
-      vuMeterLeftCtx.strokeStyle = 'var(--primary-color)';
+      vuMeterLeftCtx.strokeStyle = '#e63946'; // Rouge pour l'aiguille gauche, même couleur que la forme d'onde gauche
       vuMeterLeftCtx.stroke();
       vuMeterLeftCtx.beginPath();
       vuMeterLeftCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
@@ -2317,7 +2317,7 @@ async function setupAudioPlayer() {
         vuMeterRightCtx.lineWidth = 10;
         vuMeterRightCtx.strokeStyle = '#e0e0e0';
         vuMeterRightCtx.stroke();
-        vuMeterRightCtx.fillStyle = 'var(--font-color)';
+        vuMeterRightCtx.fillStyle = '#0000FF';
         vuMeterRightCtx.font = '10px var(--body-font)';
         levels.forEach(level => {
           const angle = startAngle + ((level + 60) / 60) * (endAngle - startAngle);
@@ -2336,7 +2336,7 @@ async function setupAudioPlayer() {
         vuMeterRightCtx.moveTo(centerX, centerY);
         vuMeterRightCtx.lineTo(centerX + Math.cos(angleRight) * radius, centerY + Math.sin(angleRight) * radius);
         vuMeterRightCtx.lineWidth = 2;
-        vuMeterRightCtx.strokeStyle = 'var(--primary-color)';
+        vuMeterRightCtx.strokeStyle = '#f4a261'; // Orange pour l'aiguille droite, même couleur que la forme d'onde droite
         vuMeterRightCtx.stroke();
         vuMeterRightCtx.beginPath();
         vuMeterRightCtx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
@@ -2358,7 +2358,7 @@ async function setupAudioPlayer() {
       analyserRight.getByteTimeDomainData(dataArrayRight);
       waveformLeftCtx.clearRect(0, 0, waveformLeftCanvas.width, waveformLeftCanvas.height);
       waveformLeftCtx.beginPath();
-      waveformLeftCtx.strokeStyle = 'var(--primary-color)';
+      waveformLeftCtx.strokeStyle = '#e63946'; // Rouge pour la forme d'onde gauche
       waveformLeftCtx.lineWidth = 2;
       let sliceWidth = waveformLeftCanvas.width / bufferLength;
       let x = 0;
@@ -2376,7 +2376,7 @@ async function setupAudioPlayer() {
       waveformLeftCtx.fillStyle = 'var(--font-color)';
       waveformLeftCtx.font = '10px var(--body-font)';
       const duration = player.duration || 60;
-      for (let t = 0; t <= duration; t += 10) {
+      for (let t = 0; t <= duration; t += 25) {
         const xPos = (t / duration) * waveformLeftCanvas.width;
         waveformLeftCtx.fillText(`${t}s`, xPos, waveformLeftCanvas.height - 5);
         waveformLeftCtx.beginPath();
@@ -2387,7 +2387,7 @@ async function setupAudioPlayer() {
       }
       waveformRightCtx.clearRect(0, 0, waveformRightCanvas.width, waveformRightCanvas.height);
       waveformRightCtx.beginPath();
-      waveformRightCtx.strokeStyle = 'var(--highlight-color)';
+      waveformRightCtx.strokeStyle = '#f4a261'; // Orange pour la forme d'onde droite
       waveformRightCtx.lineWidth = 2;
       x = 0;
       for (let i = 0; i < bufferLength; i++) {
@@ -2403,7 +2403,7 @@ async function setupAudioPlayer() {
       waveformRightCtx.stroke();
       waveformRightCtx.fillStyle = 'var(--font-color)';
       waveformRightCtx.font = '10px var(--body-font)';
-      for (let t = 0; t <= duration; t += 10) {
+      for (let t = 0; t <= duration; t += 25) {
         const xPos = (t / duration) * waveformRightCanvas.width;
         waveformRightCtx.fillText(`${t}s`, xPos, waveformRightCanvas.height - 5);
         waveformRightCtx.beginPath();
